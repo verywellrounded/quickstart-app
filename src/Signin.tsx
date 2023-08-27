@@ -1,25 +1,29 @@
-import { auth } from "firebaseui";
+import { getApp } from "firebase/app";
 import {
   FacebookAuthProvider,
   getAuth,
   GithubAuthProvider,
   GoogleAuthProvider,
   TwitterAuthProvider,
+  UserCredential,
 } from "firebase/auth";
-import { FirebaseApp } from "firebase/app";
-
+import { auth } from "firebaseui";
+import "./Signin.css";
 // Learn about namespaces and basically how to import them
 
-const createSigninUI = (app: FirebaseApp) => {
+const createSigninUI = () => {
   const uiConfig = {
     callbacks: {
+      // 💡 With out using the GoogleAuthProvider it hard to capture that return value
       signInSuccessWithAuthResult: function (
-        authResult: any,
-        redirectUrl: any
+        authResult: UserCredential,
+        redirectUrl: string
       ) {
         // User successfully signed in.
         // Return type determines whether we continue the redirect automatically
         // or whether we leave that to developer to handle.
+
+        //TODO: if i dont redirect then i can log. But i can process this result and save in the db etc
         console.log("The is the auth result", authResult);
         console.log("The is the redirecturl", redirectUrl);
         return true;
@@ -53,16 +57,18 @@ const createSigninUI = (app: FirebaseApp) => {
     console.log("got an instance of authui", ui);
     ui?.start("#firebaseui-auth-container", uiConfig);
   } else {
+    const app = getApp();
+    console.log("getApp", app);
     const ui = new auth.AuthUI(getAuth(app));
     console.log("created an instance of authui", ui);
     ui.start("#firebaseui-auth-container", uiConfig);
   }
 };
 
-function Signin(props: { app: any }) {
+function Signin() {
   return (
     <>
-      {createSigninUI(props.app)}
+      {createSigninUI()}
       <h1>Welcome to My Awesome App</h1>
       <div id="firebaseui-auth-container"></div>
       <div id="loader">Loading...</div>

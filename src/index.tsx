@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 // Import the functions you need from the SDKs you need
-import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Auth from "./Auth";
 import Home from "./Home";
+import Signin from "./Signin";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,6 +33,26 @@ const analytics = getAnalytics(app);
 // firebase init
 // firebase deploy
 
+const initApp = () => {
+  onAuthStateChanged(
+    getAuth(),
+    (user) => {
+      if (user) {
+        // User is signed in.
+      } else {
+        // User is signed out.
+      }
+    },
+    function (error) {
+      console.log(error);
+    }
+  );
+};
+
+window.addEventListener("load", function () {
+  initApp();
+});
+
 const router = createBrowserRouter(
   [
     {
@@ -40,6 +62,7 @@ const router = createBrowserRouter(
     // { path: "/signin", element:<Signin />},
     { path: "/home", element: <Home /> },
     { path: "/auth", element: <Auth /> },
+    { path: "/signin", element: <Signin /> },
   ]
   // createRoutesFromElements(
   //   <Route path="/" element={<App />}>

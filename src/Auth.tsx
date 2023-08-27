@@ -18,6 +18,7 @@ export default function Auth() {
 
     try {
       // Sign in with a pop-up window
+      // 💡Sign in with popup seems less error prone and still a smooth expereince
       const result = await signInWithPopup(auth, provider);
 
       // Pull signed-in user credential.

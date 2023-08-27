@@ -7,11 +7,11 @@
 //   </React.StrictMode>
 // );
 
+//TODO: need to check if auth is here or redirect to signin
 function Home() {
   return (
     <>
       <h2>You successfully signed in.</h2>
-      <p>Need to figure out how to rewrite the dom.</p>
     </>
   );
 }
