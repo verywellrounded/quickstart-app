@@ -12,6 +12,30 @@ import { FirebaseApp } from "firebase/app";
 
 const createSigninUI = (app: FirebaseApp) => {
   const uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function (
+        authResult: any,
+        redirectUrl: any
+      ) {
+        // User successfully signed in.
+        // Return type determines whether we continue the redirect automatically
+        // or whether we leave that to developer to handle.
+        console.log("The is the auth result", authResult);
+        console.log("The is the redirecturl", redirectUrl);
+        return true;
+      },
+      uiShown: function () {
+        // The widget is rendered.
+        // Hide the loader.
+        let loader = document.getElementById("loader");
+        if (loader) {
+          loader.style.display = "none";
+        }
+      },
+    },
+    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+    signInFlow: "popup",
+    signInSuccessUrl: "home",
     signInOptions: [
       // List of OAuth providers supported.
       GoogleAuthProvider.PROVIDER_ID,
@@ -19,7 +43,10 @@ const createSigninUI = (app: FirebaseApp) => {
       TwitterAuthProvider.PROVIDER_ID,
       GithubAuthProvider.PROVIDER_ID,
     ],
-    // Other config options...
+    // Terms of service url.
+    tosUrl: "<your-tos-url>",
+    // Privacy policy url.
+    privacyPolicyUrl: "<your-privacy-policy-url>",
   };
   if (auth.AuthUI.getInstance()) {
     const ui = auth.AuthUI.getInstance();

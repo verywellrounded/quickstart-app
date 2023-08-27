@@ -1,26 +1,15 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
-import Auth from "./Auth";
-import Signin from "./Signin";
-
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <App />,
-    },
-    // { path: "/signin", element:<Signin />},
-  ]
-  // createRoutesFromElements(
-  //   <Route path="/" element={<App />}>
-  //     <Route path="/signin" element={<Signin />} />
-  //   </Route>
-  // )
-);
 
 function App() {
+  const navigate = useNavigate(); // Strange that you have to declare the function here and cannot just import it
   return (
-    <RouterProvider router={router} />
+    <>
+      <div className="loginButtonContainer">
+        <button onClick={() => navigate("auth")}>Login/SignUp</button>
+      </div>
+      {/* <Signin app={getApp()} /> */}
+    </>
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />

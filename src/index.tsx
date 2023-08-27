@@ -3,11 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Auth from "./Auth";
 // Import the functions you need from the SDKs you need
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import Signin from "./Signin";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Auth from "./Auth";
+import Home from "./Home";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,14 +31,30 @@ const analytics = getAnalytics(app);
 // firebase init
 // firebase deploy
 
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+    },
+    // { path: "/signin", element:<Signin />},
+    { path: "/home", element: <Home /> },
+    { path: "/auth", element: <Auth /> },
+  ]
+  // createRoutesFromElements(
+  //   <Route path="/" element={<App />}>
+  //     <Route path="/signin" element={<Signin />} />
+  //   </Route>
+  // )
+);
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
-    <Auth />
-    <Signin app={app} />
+    <RouterProvider router={router}></RouterProvider>
+    {/* 💡 When using router we dont need to also declare component here. Since / is the location the router will automatically render the element that matches the path */}
   </React.StrictMode>
 );
 
