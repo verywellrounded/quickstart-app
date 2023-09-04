@@ -11,6 +11,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Auth from "./Auth";
 import Home from "./Home";
 import Signin from "./Signin";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,6 +29,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+//use emulator
+connectFirestoreEmulator(db, "127.0.0.1", 9098);
 const analytics = getAnalytics(app);
 // firebase login
 // firebase init
@@ -74,6 +78,7 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+//TODO: Put an nice splash page here with options to login or view info
 root.render(
   <React.StrictMode>
     <RouterProvider router={router}></RouterProvider>

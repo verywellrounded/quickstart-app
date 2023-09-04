@@ -1,16 +1,14 @@
-// ReactDOM.hydrateRoot(document.getElementById("root") as HTMLElement, <Home />);
+import { useCookies } from "react-cookie";
 
-// TOOD: // hydreate root or root .render ?
-// root.render(
-//   <React.StrictMode>
-//     <Home></Home>
-//   </React.StrictMode>
-// );
-
-//TODO: need to check if auth is here or redirect to signin
-function Home() {
+function Home(props: { userName?: string }) {
+  const [cookies] = useCookies(["userDetails"]);
+  if (!cookies.userDetails?.uid) {
+    // TODO: Enhance security
+    window.location.assign("/auth");
+  }
   return (
     <>
+      <h1>Welcome{" " + cookies.userDetails?.displayName}!</h1>
       <h2>You successfully signed in.</h2>
     </>
   );

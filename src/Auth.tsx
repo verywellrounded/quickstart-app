@@ -1,14 +1,22 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { db } from ".";
 import googleLogo from "./logo.svg";
 
 export default function Auth() {
   const [error, setError] = useState(false);
   const [googleErrorMessage, setGoogleErrorMessage] = useState("");
+  const [cookies, setCookie] = useCookies(["userDetails"]);
 
   // Instantiate the auth service SDK
   const auth = getAuth();
 
+  if (cookies.userDetails?.uid) {
+    // TODO: Enhance security
+    window.location.assign("/home");
+  }
   // Handle user sign up with google
   const handleGoogleSignUp = async (e: any) => {
     e.preventDefault();
@@ -23,7 +31,27 @@ export default function Auth() {
 
       // Pull signed-in user credential.
       const user = result.user;
+      console.log("Signed in result", result);
+      try {
+        addDoc(collection(db, "users"), {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          created: user.metadata.creationTime,
+          lastLogin: user.metadata.lastSignInTime,
+          providerId: user.providerId,
+        });
+        // console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
       console.log("Signed in user creds", user);
+      setCookie("userDetails", {
+        uid: user.uid,
+        displayName: user.displayName,
+        token: user.getIdToken(false),
+      });
+      window.location.assign("/home");
     } catch (err: any) {
       // Handle errors here.
       const errorMessage = err.message;
