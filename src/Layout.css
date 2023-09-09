@@ -1,0 +1,4 @@
+.appContainer{
+    display: grid;
+    grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] 55% [last-line];
+}

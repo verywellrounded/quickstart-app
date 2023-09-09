@@ -12,6 +12,8 @@ import Auth from "./Auth";
 import Home from "./Home";
 import Signin from "./Signin";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import * as serviceWorker from "./serviceWorkerRegistration";
+import Scan from "./Scan";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -67,6 +69,9 @@ const router = createBrowserRouter(
     { path: "/home", element: <Home /> },
     { path: "/auth", element: <Auth /> },
     { path: "/signin", element: <Signin /> },
+    { path: "/foodbank", element: <Signin /> },
+    { path: "/explore", element: <Signin /> },
+    { path: "/scan", element: <Scan /> },
   ]
   // createRoutesFromElements(
   //   <Route path="/" element={<App />}>
@@ -85,6 +90,10 @@ root.render(
     {/* 💡 When using router we dont need to also declare component here. Since / is the location the router will automatically render the element that matches the path */}
   </React.StrictMode>
 );
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorker.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

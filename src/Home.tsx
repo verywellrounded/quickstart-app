@@ -1,4 +1,5 @@
 import { useCookies } from "react-cookie";
+import Layout from "./Layout";
 
 function Home(props: { userName?: string }) {
   const [cookies] = useCookies(["userDetails"]);
@@ -8,8 +9,11 @@ function Home(props: { userName?: string }) {
   }
   return (
     <>
-      <h1>Welcome{" " + cookies.userDetails?.displayName}!</h1>
-      <h2>You successfully signed in.</h2>
+      <Layout>
+        <div className="layout"></div>
+        <h1>Welcome{" " + cookies.userDetails?.displayName}!</h1>
+        <h2>You successfully signed in.</h2>
+      </Layout>
     </>
   );
 }
