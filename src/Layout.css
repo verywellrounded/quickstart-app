@@ -1,4 +1,9 @@
-.appContainer{
-    display: grid;
-    grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] 55% [last-line];
+.navcontainer {
+  border: solid salmon;
+  grid-row-start: lrow;
+  grid-row-end: lrow;
+  grid-column-start: col1;
+  grid-column-end: endcol;
+  justify-self: stretch;
+  align-self: center;
 }

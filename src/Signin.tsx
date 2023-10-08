@@ -8,7 +8,6 @@ import {
   UserCredential,
 } from "firebase/auth";
 import { auth } from "firebaseui";
-import "./Signin.css";
 // Learn about namespaces and basically how to import them
 
 const createSigninUI = () => {

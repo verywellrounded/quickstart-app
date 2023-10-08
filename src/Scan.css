@@ -1,0 +1,15 @@
+.imagePreviewParentContainer {
+  /* border: solid 1px navy; */
+  grid-column-start: col2;
+  grid-column-end: col3;
+  grid-row-start: row2;
+  grid-row-end: lrow;
+}
+
+.imagePreviewContainer {
+  /* border: solid 1px green; */
+  grid-column-start: col2;
+  grid-column-end: col3;
+  grid-row-start: row2;
+  grid-row-end: lrow;
+}

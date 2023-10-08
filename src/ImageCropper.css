@@ -1,0 +1,10 @@
+.imageCropperContainer {
+  display: grid;
+  grid-template-columns: [start] 50%;
+  height: 100%;
+  width: 100%;
+  border: 5px solid rgb(0, 0, 0);
+}
+
+.cropControls {
+}

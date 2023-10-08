@@ -14,6 +14,7 @@ import Signin from "./Signin";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import * as serviceWorker from "./serviceWorkerRegistration";
 import Scan from "./Scan";
+import "./index.css";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
