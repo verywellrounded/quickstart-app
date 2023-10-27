@@ -1,25 +1,47 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "New-Tritionist",
+  "name": "New-Tritionist: Do something new about food",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "1844710_grape_nutrition_food_icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "128x128"
     },
     {
-      "src": "logo192.png",
+      "src": "1844710_grape_nutrition_food_icon_192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "1844710_grape_nutrition_food_icon_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
+  "id": "New-Tritionist_dev",
   "start_url": ".",
+  "background_color": "#3367D6",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "scope": ".",
+  "theme_color": "#3367D6",
+  "shortcuts": [],
+  "description": "Your very own personal nutrionist",
+  "screenshots": [
+    {
+      "src": "Recipe_Inventory_ScreenShot.png",
+      "type": "image/png",
+      "sizes": "420x708",
+      "form_factor": "wide"
+    },
+    {
+      "src": "Search_Inventory_Screenshot.png",
+      "type": "image/jpg",
+      "sizes": "425x722"
+    },
+    {
+      "src": "Shopping_List_ScreenShot.png",
+      "type": "image/jpg",
+      "sizes": "399x705"
+    }
+  ]
 }

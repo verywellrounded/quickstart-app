@@ -7,6 +7,7 @@ function App() {
   const navigate = useNavigate(); // Strange that you have to declare the function here and cannot just import it
   return (
     <>
+      <link rel="manifest" href="/manifest.json"></link>
       <div className="loginButtonContainer">
         <button onClick={() => navigate("auth")}>Login/SignUp</button>
       </div>

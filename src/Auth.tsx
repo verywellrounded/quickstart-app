@@ -87,6 +87,7 @@ export default function Auth() {
 
   return (
     <>
+      <link rel="manifest" href="/manifest.json"></link>
       <h1>Authentication Page</h1>
       <div className="signupContainer">
         <div className="signupContainer__box__google">
