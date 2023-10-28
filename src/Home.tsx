@@ -5,7 +5,7 @@ const welcomeBannerStyle = {
   border: "solid 1px navy",
   display: "grid",
   "grid-column-start": "col2",
-  "grid-column-end": "col3",
+  "grid-column-end": "endCol",
   "grid-row-start": "row2",
   height: "100%",
   width: "100%",

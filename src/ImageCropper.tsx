@@ -10,6 +10,7 @@ import ReactCrop, {
 
 import "react-image-crop/dist/ReactCrop.css";
 import "./ImageCropper.css";
+import "./Scan.css";
 import { useDebounceEffect } from "./debounceEffect";
 
 const TO_RADIANS = Math.PI / 180;
@@ -139,6 +140,8 @@ export default function App() {
       hiddenAnchorRef.current!.href = blobUrlRef.current;
       hiddenAnchorRef.current!.click();
     });
+    //TODO: Redirect with result from ocr to confirm screen with manual correction
+    window.location.assign("/home");
   }
 
   useDebounceEffect(
@@ -178,8 +181,10 @@ export default function App() {
   return (
     <div className="imageCropperContainer">
       <div className="cropControls">
-        <input type="file" accept="image/*" onChange={onSelectFile} />
-        <div>
+        <div className="fileInput">
+          <input type="file" accept="image/*" onChange={onSelectFile} />
+        </div>
+        <div className="scaleDiv">
           <label htmlFor="scale-input">Scale: </label>
           <input
             id="scale-input"
@@ -190,7 +195,7 @@ export default function App() {
             onChange={(e) => setScale(Number(e.target.value))}
           />
         </div>
-        <div>
+        <div className="rotateDiv">
           <label htmlFor="rotate-input">Rotate: </label>
           <input
             id="rotate-input"
@@ -202,8 +207,38 @@ export default function App() {
             }
           />
         </div>
+        {!!completedCrop && (
+          <div className="completedCropContainer">
+            <div className="previewCanvas">
+              <canvas
+                ref={previewCanvasRef}
+                style={{
+                  border: "5px solid green",
+                  objectFit: "contain",
+                  width: completedCrop.width,
+                  height: completedCrop.height,
+                }}
+              />
+            </div>
+            <div className="submitCropButtonContainer">
+              <button onClick={onDownloadCropClick}>Submit Crop</button>
+              <a
+                href="#hidden"
+                ref={hiddenAnchorRef}
+                download
+                style={{
+                  // position: "absolute",
+                  // top: "-200vh",
+                  visibility: "hidden",
+                }}
+              >
+                Hidden download
+              </a>
+            </div>
+          </div>
+        )}
       </div>
-      <div className="">
+      <div className="imageContainer">
         {!!imgSrc && (
           <ReactCrop
             crop={crop}
@@ -213,46 +248,18 @@ export default function App() {
             }}
             onComplete={(c) => setCompletedCrop(c)}
             aspect={undefined}
-            // minWidth={400}
+            minWidth={400}
             minHeight={200}
           >
             <img
               ref={imgRef}
+              width="100%"
+              height="100%"
               alt="Crop me"
               src={imgSrc}
               style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
             />
           </ReactCrop>
-        )}
-        {!!completedCrop && (
-          <>
-            <div>
-              <canvas
-                ref={previewCanvasRef}
-                style={{
-                  border: "1px solid black",
-                  objectFit: "contain",
-                  width: completedCrop.width,
-                  height: completedCrop.height,
-                }}
-              />
-            </div>
-            <div>
-              <button onClick={onDownloadCropClick}>Download Crop</button>
-              <a
-                href="#hidden"
-                ref={hiddenAnchorRef}
-                download
-                style={{
-                  position: "absolute",
-                  top: "-200vh",
-                  visibility: "hidden",
-                }}
-              >
-                Hidden download
-              </a>
-            </div>
-          </>
         )}
       </div>
     </div>

@@ -1,10 +1,55 @@
 .imageCropperContainer {
   display: grid;
-  grid-template-columns: [start] 50%;
+  grid-template-rows: [top] 10% [subHeader] 5% [main] auto [bottom] 10%;
+  grid-template-columns: [start] 1fr [end] auto;
   height: 100%;
   width: 100%;
   border: 5px solid rgb(0, 0, 0);
 }
-
+/* .imageCropperContainer div {
+  display: grid;
+} */
 .cropControls {
+  height: 100%;
+  width: 100%;
+  grid-column: start;
+  /* 
+  trying to figure out how to space the row items in the crop controls section
+  grid-template-rows: auto;
+  row-gap: 10fr;*/
+}
+.fileInput {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  border: blue, 1px solid;
+}
+.scaleDiv {
+  display: grid;
+}
+.rotateDiv {
+  display: grid;
+}
+.completedCropContainer {
+  display: grid;
+  gap: 5%;
+  grid-template-rows: [top] 1fr, [bottom] auto;
+}
+.previewCanvas {
+  height: 45%;
+  width: 100%;
+  display: grid;
+  grid-row: bottom;
+}
+.submitCropButtonContainer {
+  display: grid;
+}
+.imageContainer {
+  height: 1024px;
+  width: 440px;
+}
+.ReactCrop {
+  display: grid;
+  height: 55%;
+  width: 100%;
 }
