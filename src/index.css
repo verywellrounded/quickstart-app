@@ -23,8 +23,5 @@ body,
   height: 100%;
   width: 100%;
 } */
-#root {
-  display: grid;
-  grid-template-rows: [frow] 25% [row2] 65% [row3] auto[lrow];
-  grid-template-columns: [col1] 33% [col2] 50% [col3] auto[endcol];
-}
+
+/* Removing grid at the index level to put it in the layout css so only pages that use the layout have the grid*/

@@ -1,3 +1,19 @@
+@media (min-width: 500px) {
+  .layoutContainer {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: [col1] 1fr [col2] auto [col3] 1fr [endcol];
+  }
+}
+.layoutContainer {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: [frow] 25% [row2] 65% [row3] auto[lrow];
+  grid-template-columns: [col1] 1fr [col2] 2fr [col3] auto[endcol];
+}
+
 .navcontainer {
   border: solid salmon;
   grid-row-start: lrow;

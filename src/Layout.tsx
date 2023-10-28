@@ -9,8 +9,11 @@ import Nav from "./Nav";
 export default function Layout(props: PropsWithChildren<{}>) {
   return (
     <>
-      {props.children}
-      <Nav className={"navcontainer"} />
+      <div className="layoutContainer">
+        <link rel="manifest" href="/manifest.json"></link>
+        {props.children}
+        <Nav className={"navcontainer"} />
+      </div>
     </>
   );
 }
