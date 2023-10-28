@@ -4,7 +4,7 @@
   grid-template-columns: [start] 1fr [end] auto;
   height: 100%;
   width: 100%;
-  border: 5px solid rgb(0, 0, 0);
+  /* border: 5px solid rgb(0, 0, 0); */
 }
 /* .imageCropperContainer div {
   display: grid;
@@ -22,7 +22,6 @@
   height: 100%;
   width: 100%;
   display: grid;
-  border: blue, 1px solid;
 }
 .scaleDiv {
   display: grid;

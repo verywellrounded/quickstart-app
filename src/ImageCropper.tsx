@@ -213,7 +213,7 @@ export default function App() {
               <canvas
                 ref={previewCanvasRef}
                 style={{
-                  border: "5px solid green",
+                  // border: "5px solid green",
                   objectFit: "contain",
                   width: completedCrop.width,
                   height: completedCrop.height,
