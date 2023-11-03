@@ -1,11 +1,10 @@
 import { BrowserMultiFormatReader } from "@zxing/library";
-import { useRef, useEffect, useState } from "react";
-import Nav from "./Nav";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import ImageCropper from "./ImageCropper";
 import Layout from "./Layout";
 import "./Scan.css";
-import "./index.css";
-import ImageCropper from "./ImageCropper";
+import "../index.css";
 interface upcResponse {
   //     {
   //         code: string

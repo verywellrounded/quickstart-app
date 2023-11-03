@@ -2,8 +2,7 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-import { db } from ".";
-import googleLogo from "./logo.svg";
+import { db } from "..";
 
 export default function Auth() {
   const [error, setError] = useState(false);
@@ -93,7 +92,7 @@ export default function Auth() {
         <div className="signupContainer__box__google">
           <button onClick={handleGoogleSignUp}>
             <span>
-              <img src={googleLogo} alt="Google Logo" />
+              <img src={"/googleLogo.svg"} alt="Google Logo" />
             </span>
             Sign Up with Google
           </button>

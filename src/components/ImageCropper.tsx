@@ -12,7 +12,7 @@ import axios from "axios";
 import "react-image-crop/dist/ReactCrop.css";
 import "./ImageCropper.css";
 import "./Scan.css";
-import { useDebounceEffect } from "./debounceEffect";
+import { useDebounceEffect } from "../debounceEffect";
 
 const TO_RADIANS = Math.PI / 180;
 

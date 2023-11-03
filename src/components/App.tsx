@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "./App.css";
 
 // TODO: Need to check auth is good here and redirect to home.
 

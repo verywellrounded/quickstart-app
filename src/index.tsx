@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./components/App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 // Import the functions you need from the SDKs you need
@@ -8,12 +8,12 @@ import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Auth from "./Auth";
-import Home from "./Home";
-import Signin from "./Signin";
+import Auth from "./components/Auth";
+import Home from "./components/Home";
+import Signin from "./components/Signin";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import * as serviceWorker from "./serviceWorkerRegistration";
-import Scan from "./Scan";
+import Scan from "./components/Scan";
 import "./index.css";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
