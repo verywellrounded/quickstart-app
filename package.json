@@ -8,7 +8,8 @@
     "os": false
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "react-app-rewired": "^2.2.1"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -16,6 +17,7 @@
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
     "@mui/styled-engine-sc": "^5.14.7",
+    "@techstark/opencv-js": "^4.8.0-release.9",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -38,9 +40,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

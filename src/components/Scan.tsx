@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import ImageCropper from "./ImageCropper";
 import Layout from "./Layout";
+import BoarderDetector from "./BoarderDetector";
 import "./Scan.css";
 import "../index.css";
 interface upcResponse {
@@ -341,6 +342,7 @@ export default function Scan() {
       <Layout>
         {/* {UploadAndDisplayImage()} */}
         <div className="imagePreviewParentContainer">
+          <BoarderDetector></BoarderDetector>
           <ImageCropper></ImageCropper>
         </div>
       </Layout>
