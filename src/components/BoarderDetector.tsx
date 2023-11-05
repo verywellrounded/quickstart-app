@@ -1,15 +1,8 @@
-import cv, { Point } from "@techstark/opencv-js";
+import cv from "@techstark/opencv-js";
 import React, { useState } from "react";
 import "./boarderDetector.css";
 
-// cv = cv;
-
-// componentDidMount() {
-//     loadHaarFaceModels();
-//   }
-
 function TestPage(props: any) {
-  //   const inputImgRef = useRef<HTMLCanvasElement>();
   const grayImgRef = React.createRef<HTMLCanvasElement>();
   const cannyEdgeRef = React.createRef<HTMLCanvasElement>();
   const boarderedImageRef = React.createRef<HTMLCanvasElement>();
@@ -56,18 +49,15 @@ function TestPage(props: any) {
     let maxArea = -1;
     let maxContourIndex = -1;
     for (let i = 0; i < contours.size(); i++) {
-      console.log("");
-      console.log("");
-
-      const contour = contours.get(i); // hoping this works
-      console.log("current Contour", contour);
+      const contour = contours.get(i);
+      //   console.log("current Contour", contour);
       const area = cv.contourArea(contour);
-      console.log("current contour aread", area);
+      //   console.log("current contour aread", area);
       if (area > maxArea) {
-        console.log("previous max contour index", maxContourIndex);
+        // console.log("previous max contour index", maxContourIndex);
         maxArea = area;
         maxContourIndex = i;
-        console.log("current max contour index", maxContourIndex);
+        // console.log("current max contour index", maxContourIndex);
       }
     }
 
@@ -76,16 +66,18 @@ function TestPage(props: any) {
       console.log("We found a max contour", largestContour);
 
       // Draw a rectangle around the receipt
-      const rect = cv.boundingRect(largestContour);
-      const point1 = new Point(rect.x, rect.x + rect.width);
-      const point2 = new Point(rect.y, rect.y + rect.height);
-      console.log("edges", edges);
-      console.log("rect", rect);
-      console.log("line", cv.LINE_8);
       const rectColor = new cv.Scalar(0, 255, 0, 255); // Green color
-      //   cv.rectangle(edges, rect, [0, 255, 0, 255]); //, 2, cv.LINE_8, 0);
-      cv.rectangle(img, point1, point2, rectColor, 2, cv.LINE_8, 0);
 
+      cv.drawContours(
+        img,
+        contours,
+        maxContourIndex,
+        rectColor,
+        1,
+        cv.LINE_8,
+        hierarchy,
+        100
+      );
       // Convert the Mat object back to canvas
       cv.imshow(boarderedImageRef.current!, img);
     }
