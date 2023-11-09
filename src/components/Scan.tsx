@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import BoarderDetector from "./BoarderDetector";
 import "./Scan.css";
 import "../index.css";
+import { MediaStreamTest } from "./MediaStreamTest";
 interface upcResponse {
   //     {
   //         code: string
@@ -342,6 +343,7 @@ export default function Scan() {
       <Layout>
         {/* {UploadAndDisplayImage()} */}
         <div className="imagePreviewParentContainer">
+          <MediaStreamTest></MediaStreamTest>
           <BoarderDetector></BoarderDetector>
           <ImageCropper></ImageCropper>
         </div>

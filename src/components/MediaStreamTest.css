@@ -1,0 +1,9 @@
+.videoContainer {
+  position: relative;
+}
+
+.annotationCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
