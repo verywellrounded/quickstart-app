@@ -12,7 +12,7 @@ export const MediaStreamTest = () => {
     const startVideo = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+          video: { facingMode: "environment" },
         });
         console.log("Media Stream:", stream);
         if (videoRef.current && canvasRef.current) {
