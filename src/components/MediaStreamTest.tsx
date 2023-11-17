@@ -1,16 +1,14 @@
-import { Button } from "@mui/material";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import { IconButton } from "@mui/material";
 import cv from "@techstark/opencv-js";
 import { useEffect, useRef, useState } from "react";
 import ImageCropper from "./ImageCropper";
 import "./MediaStreamTest.css";
-// import * as ImageCapture from "image-capture/lib/imagecapture.js"
 
 export const MediaStreamTest = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
-  const grayImgRef = useRef<HTMLCanvasElement>(null);
-  const cannyEdgeRef = useRef<HTMLCanvasElement>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [showCloseButton, setShowCloseButton] = useState(false);
   const [isShowUpload, setIsShowUpload] = useState(false);
@@ -26,12 +24,10 @@ export const MediaStreamTest = () => {
       // to gray scale
       const imgGray = new cv.Mat();
       cv.cvtColor(img, imgGray, cv.COLOR_BGR2GRAY);
-      cv.imshow(grayImgRef.current!, imgGray);
 
       // detect edges using Canny
       const edges = new cv.Mat();
       cv.Canny(imgGray, edges, 100, 100);
-      cv.imshow(cannyEdgeRef.current!, edges);
 
       // detect faces using Haar-cascade Detection
       // Find contours in the edge image
@@ -117,6 +113,7 @@ export const MediaStreamTest = () => {
         }
 
         setImageUrl(URL.createObjectURL(blob));
+        // find a way to get imageurl to imageElementRef
         console.log("blob", blob);
         if (blob) {
           processImage(imageElementRef.current);
@@ -190,13 +187,12 @@ export const MediaStreamTest = () => {
               height="480"
             ></canvas>
             {showCloseButton && (
-              <Button
+              <IconButton
                 className="closeButton"
-                variant="contained"
                 onClick={closeFullScreenCapture}
               >
-                X
-              </Button>
+                <CancelPresentationIcon fontSize="large" />
+              </IconButton>
             )}
           </div>
 
