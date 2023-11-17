@@ -342,10 +342,10 @@ export default function Scan() {
       {/* Need to work out the css how to apply grid at the layout level */}
       <Layout>
         {/* {UploadAndDisplayImage()} */}
-        <MediaStreamTest></MediaStreamTest>
         <div className="imagePreviewParentContainer">
-          <BoarderDetector></BoarderDetector>
-          <ImageCropper></ImageCropper>
+          <MediaStreamTest></MediaStreamTest>
+          {/* <BoarderDetector></BoarderDetector> */}
+          {/* <ImageCropper></ImageCropper> */}
         </div>
       </Layout>
 

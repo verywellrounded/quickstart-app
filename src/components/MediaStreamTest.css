@@ -1,9 +1,22 @@
 .videoContainer {
   position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .annotationCanvas {
+  display: flex;
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.closeButton {
+  position: absolute;
+  display: flex;
+  align-self: start;
+  /*Need to figure out how to pin x on top right of canvas 
+  maybe need to make flexbox and then z index */
+  /* transform: translate(-50%, -50%); */
 }
