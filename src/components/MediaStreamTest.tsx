@@ -2,16 +2,17 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import { IconButton } from "@mui/material";
 import cv from "@techstark/opencv-js";
 import { useEffect, useRef, useState } from "react";
-import ImageCropper from "./ImageCropper";
 import "./MediaStreamTest.css";
 
-export const MediaStreamTest = () => {
+export const MediaStreamTest = (props: {
+  isShowUpload: boolean;
+  setIsShowUpload: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [showCloseButton, setShowCloseButton] = useState(false);
-  const [isShowUpload, setIsShowUpload] = useState(false);
 
   useEffect(() => {
     // Function to access the user's camera and display it in the video element
@@ -165,48 +166,45 @@ export const MediaStreamTest = () => {
   }, []);
 
   const closeFullScreenCapture = (event: unknown) => {
-    setIsShowUpload(true);
+    props.setIsShowUpload(true);
   };
 
   return (
-    <>
-      {!isShowUpload && (
-        <>
-          <div className="videoContainer">
-            <video
-              ref={videoRef}
-              width="100%"
-              height="480"
-              autoPlay
-              playsInline
-            />
-            <canvas
-              className="annotationCanvas"
-              ref={canvasRef}
-              width="100%"
-              height="480"
-            ></canvas>
-            {showCloseButton && (
-              <IconButton
-                className="closeButton"
-                onClick={closeFullScreenCapture}
-              >
-                <CancelPresentationIcon fontSize="large" />
-              </IconButton>
-            )}
-          </div>
-
-          <img
+    <div className="componentContainer">
+      <>
+        <div className="videoContainer">
+          <video
+            ref={videoRef}
             width="100%"
             height="480"
-            hidden={false}
-            alt={"n/a"}
-            ref={imageElementRef}
-            src={imageUrl}
-          ></img>
-        </>
-      )}
-      {isShowUpload && <ImageCropper />}
-    </>
+            autoPlay
+            playsInline
+          />
+          <canvas
+            className="annotationCanvas"
+            ref={canvasRef}
+            width="100%"
+            height="480"
+          ></canvas>
+          {showCloseButton && (
+            <IconButton
+              className="closeButton"
+              onClick={closeFullScreenCapture}
+            >
+              <CancelPresentationIcon fontSize="large" />
+            </IconButton>
+          )}
+        </div>
+
+        <img
+          width="100%"
+          height="480"
+          hidden={false}
+          alt={"n/a"}
+          ref={imageElementRef}
+          src={imageUrl}
+        ></img>
+      </>
+    </div>
   );
 };

@@ -164,7 +164,7 @@ export default function App() {
         }
       );
       // // await axios.post(`https://api.ocr.space/parse/image`, body, config);
-      // console.log("got response from ocr API", axiosResp);
+      console.log("got response from ocr API", axiosResp);
     } catch (error) {
       console.error(error);
     }
@@ -241,7 +241,8 @@ export default function App() {
   }
 
   return (
-    <div className="imageCropperContainer">
+    // <div className="imageCropperContainer">
+    <>
       <div className="cropControls">
         <div className="fileInput">
           <input type="file" accept="image/*" onChange={onSelectFile} />
@@ -275,7 +276,7 @@ export default function App() {
               <canvas
                 ref={previewCanvasRef}
                 style={{
-                  // border: "5px solid green",
+                  border: "5px solid green",
                   objectFit: "contain",
                   width: completedCrop.width,
                   height: completedCrop.height,
@@ -289,8 +290,8 @@ export default function App() {
                 ref={hiddenAnchorRef}
                 download
                 style={{
-                  // position: "absolute",
-                  // top: "-200vh",
+                  position: "absolute",
+                  top: "-200vh",
                   visibility: "hidden",
                 }}
               >
@@ -300,7 +301,8 @@ export default function App() {
           </div>
         )}
       </div>
-      <div className="imageContainer">
+      {/* @ts-ignore: popover is valid html now */}
+      <div className="imageContainer" id="imageContainer" x>
         {!!imgSrc && (
           <ReactCrop
             crop={crop}
@@ -324,7 +326,8 @@ export default function App() {
           </ReactCrop>
         )}
       </div>
-    </div>
+    </>
+    // </div>
   );
 }
 

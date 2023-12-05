@@ -210,6 +210,7 @@ export default function Scan() {
   const resultRef = useRef<HTMLTextAreaElement>(null);
   const reader = useRef(new BrowserMultiFormatReader());
   const fileInput = useRef<HTMLInputElement>(null);
+  const [isShowUpload, setIsShowUpload] = useState(false);
 
   const onBlur = () => {
     reader.current.reset();
@@ -342,11 +343,16 @@ export default function Scan() {
       {/* Need to work out the css how to apply grid at the layout level */}
       <Layout>
         {/* {UploadAndDisplayImage()} */}
-        <div className="imagePreviewParentContainer">
-          <MediaStreamTest></MediaStreamTest>
-          {/* <BoarderDetector></BoarderDetector> */}
-          {/* <ImageCropper></ImageCropper> */}
-        </div>
+        {/* <div className="imagePreviewParentContainer"> */}
+        {!isShowUpload && (
+          <MediaStreamTest
+            isShowUpload={isShowUpload}
+            setIsShowUpload={setIsShowUpload}
+          />
+        )}
+        {/* <BoarderDetector></BoarderDetector> */}
+        {isShowUpload && <ImageCropper></ImageCropper>}
+        {/* </div> */}
       </Layout>
 
       {/* <video ref={videoRef} />

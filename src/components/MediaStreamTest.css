@@ -1,3 +1,10 @@
+.componentContainer {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-row: frow / row3;
+  grid-column: col1 / endcCol;
+}
 .videoContainer {
   position: relative;
   display: flex;
