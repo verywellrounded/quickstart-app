@@ -2,9 +2,9 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import { IconButton } from "@mui/material";
 import cv from "@techstark/opencv-js";
 import { useEffect, useRef, useState } from "react";
-import "./MediaStreamTest.css";
+import "./AutoImageUpload.css";
 
-export const MediaStreamTest = (props: {
+export const AutoImageUpload = (props: {
   isShowUpload: boolean;
   setIsShowUpload: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {

@@ -13,31 +13,9 @@
     height: 100%;
     /* auto cannot go at the end but has to go in between to fr units*/
     grid-template-rows: [frow] 10% [row2] auto [row3] 1fr [lrow] 10%;
-    grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr;
+    grid-template-columns: [col1] 1fr [col2] 50fr [endCol] 1fr; /*Fr is the devil. Needed to make this a size to get centering smooth*/
   }
 
-  .navcontainer {
-    display: grid;
-    /* border: solid salmon; */
-    grid-row-start: lrow;
-    grid-row-end: lrow;
-    grid-column-start: col1;
-    grid-column-end: endCol;
-    /* align-self: start; /* vertically */
-    justify-content: center; /* Center horizontally 
-    align-items: center; line height looks like */
-  }
-}
-
-@media (max-width: 500px) {
-  .layoutContainer {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    /* auto cannot go at the end but has to go in between to fr units*/
-    grid-template-rows: [frow] 10% [row2] auto [row3] 1fr [lrow] 10%;
-    grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr;
-  }
   .navcontainer {
     display: flex;
     /* border: solid salmon; */
@@ -50,6 +28,7 @@
     align-items: center; /*line height looks like */
   }
 }
+
 /*web */
 @media (min-width: 1000px) {
   .layoutContainer {

@@ -1,0 +1,18 @@
+.titleDiv {
+  grid-area: frow/ col1/ frow/ endCol;
+  justify-self: center;
+  align-self: start;
+}
+
+.editMenu {
+  grid-area: frow/ col1/ frow/ endCol;
+  justify-self: center;
+  align-self: end;
+}
+
+.responseDisplayContainer {
+  grid-area: row2/ col1/ row2/ endCol;
+  align-self: center;
+  overflow: scroll;
+  max-height: 100%;
+}

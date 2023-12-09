@@ -6,7 +6,8 @@ import Layout from "./Layout";
 import BoarderDetector from "./BoarderDetector";
 import "./Scan.css";
 import "../index.css";
-import { MediaStreamTest } from "./MediaStreamTest";
+import { AutoImageUpload } from "./AutoImageUpload";
+import SimpleImageCropper from "./SimpleImageCropper";
 interface upcResponse {
   //     {
   //         code: string
@@ -211,6 +212,7 @@ export default function Scan() {
   const reader = useRef(new BrowserMultiFormatReader());
   const fileInput = useRef<HTMLInputElement>(null);
   const [isShowUpload, setIsShowUpload] = useState(false);
+  const [iOSOrStandalone, setiOSOrStandalone] = useState(false);
 
   const onBlur = () => {
     reader.current.reset();
@@ -261,6 +263,34 @@ export default function Scan() {
   };
 
   useEffect(() => {
+    window.addEventListener("DOMContentLoaded", () => {
+      let displayMode = "browser tab";
+      if (window.matchMedia("(display-mode: standalone)").matches) {
+        displayMode = "standalone";
+      }
+      // Log launch display mode to analytics
+      console.log("DISPLAY_MODE_LAUNCH:", displayMode);
+    });
+
+    // Detects if device is on iOS
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    };
+    console.log("isIos", isIos());
+    // Detects if device is in standalone mode
+    const isInStandaloneMode = () =>
+      "standalone" in window.navigator && window.navigator.standalone;
+
+    // Checks if should display install popup notification:
+    if (isIos() && !isInStandaloneMode()) {
+      // offer app installation here
+    }
+
+    console.log("isInStandAlone", isInStandaloneMode());
+    if (isIos() || isInStandaloneMode()) {
+      setiOSOrStandalone(true);
+    }
     window.addEventListener("focus", onFocus);
     window.addEventListener("blur", onBlur);
     fileInput.current?.addEventListener(
@@ -334,6 +364,7 @@ export default function Scan() {
 
   return (
     <>
+      {console.log("value of ios or standalone", iOSOrStandalone)}
       {/* <input
         ref={fileInput}
         type="file"
@@ -344,14 +375,18 @@ export default function Scan() {
       <Layout>
         {/* {UploadAndDisplayImage()} */}
         {/* <div className="imagePreviewParentContainer"> */}
-        {!isShowUpload && (
-          <MediaStreamTest
+
+        {iOSOrStandalone ? (
+          <SimpleImageCropper />
+        ) : !isShowUpload ? (
+          <AutoImageUpload
             isShowUpload={isShowUpload}
             setIsShowUpload={setIsShowUpload}
           />
+        ) : (
+          <SimpleImageCropper />
         )}
         {/* <BoarderDetector></BoarderDetector> */}
-        {isShowUpload && <ImageCropper></ImageCropper>}
         {/* </div> */}
       </Layout>
 

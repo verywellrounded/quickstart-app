@@ -1,0 +1,7 @@
+/* @media (max-width: 412px) { */
+.uploadButtonContainer {
+  grid-area: row3/col1/row3/endCol;
+  justify-self: center;
+  align-self: center;
+}
+/* } */
