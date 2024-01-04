@@ -8,6 +8,7 @@ import "./Scan.css";
 import "../index.css";
 import { AutoImageUpload } from "./AutoImageUpload";
 import SimpleImageCropper from "./SimpleImageCropper";
+import { isInStandaloneMode, isIos } from "../utils";
 interface upcResponse {
   //     {
   //         code: string
@@ -272,15 +273,7 @@ export default function Scan() {
       console.log("DISPLAY_MODE_LAUNCH:", displayMode);
     });
 
-    // Detects if device is on iOS
-    const isIos = () => {
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      return /iphone|ipad|ipod/.test(userAgent);
-    };
     console.log("isIos", isIos());
-    // Detects if device is in standalone mode
-    const isInStandaloneMode = () =>
-      "standalone" in window.navigator && window.navigator.standalone;
 
     // Checks if should display install popup notification:
     if (isIos() && !isInStandaloneMode()) {

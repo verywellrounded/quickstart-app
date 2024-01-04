@@ -122,6 +122,7 @@ export const AutoImageUpload = (props: {
         setShowCloseButton(true);
       } catch (e) {
         console.log("unable to take photo or process image", e);
+        setShowCloseButton(true);
       }
     };
 

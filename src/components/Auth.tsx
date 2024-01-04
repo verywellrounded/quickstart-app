@@ -1,13 +1,44 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  User,
+  UserCredential,
+  getAuth,
+  getRedirectResult,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { db } from "..";
+import { isIos } from "../utils";
 
 export default function Auth() {
   const [error, setError] = useState(false);
   const [googleErrorMessage, setGoogleErrorMessage] = useState("");
   const [cookies, setCookie] = useCookies(["userDetails"]);
+
+  function saveUserInfo(user: User) {
+    try {
+      addDoc(collection(db, "users"), {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        created: user.metadata.creationTime,
+        lastLogin: user.metadata.lastSignInTime,
+        providerId: user.providerId,
+      });
+      // console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    console.log("Signed in user creds", user);
+    setCookie("userDetails", {
+      uid: user.uid,
+      displayName: user.displayName,
+      token: user.getIdToken(false),
+    });
+  }
 
   // Instantiate the auth service SDK
   const auth = getAuth();
@@ -22,34 +53,16 @@ export default function Auth() {
 
     // Instantiate a GoogleAuthProvider object
     const provider = new GoogleAuthProvider();
-
+    let result: UserCredential | null = null;
     try {
       // Sign in with a pop-up window
       // 💡Sign in with popup seems less error prone and still a smooth expereince
-      const result = await signInWithPopup(auth, provider);
+      result = await signInWithPopup(auth, provider);
 
       // Pull signed-in user credential.
       const user = result.user;
       console.log("Signed in result", result);
-      try {
-        addDoc(collection(db, "users"), {
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          created: user.metadata.creationTime,
-          lastLogin: user.metadata.lastSignInTime,
-          providerId: user.providerId,
-        });
-        // console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-      console.log("Signed in user creds", user);
-      setCookie("userDetails", {
-        uid: user.uid,
-        displayName: user.displayName,
-        token: user.getIdToken(false),
-      });
+      saveUserInfo(user);
       window.location.assign("/home");
     } catch (err: any) {
       // Handle errors here.
@@ -68,9 +81,13 @@ export default function Auth() {
           );
           break;
         case "auth/popup-blocked":
-          setGoogleErrorMessage(
-            "Popup has been blocked by the browser. Please allow popups for this website."
-          );
+          console.log("Pop up blocked. Trying redirect");
+          await signInWithRedirect(auth, provider);
+          result = await getRedirectResult(auth);
+
+          // setGoogleErrorMessage(
+          //   "Popup has been blocked by the browser. Please allow popups for this website."
+          // );
           break;
         case "auth/popup-closed-by-user":
           setGoogleErrorMessage(
@@ -82,6 +99,15 @@ export default function Auth() {
           break;
       }
     }
+
+    if (null !== result) {
+      const user = result.user;
+      console.log("Signed in result", result);
+      saveUserInfo(user);
+    } else {
+      console.log("login failed. Result is null", result);
+    }
+    window.location.assign("/home");
   };
 
   return (
