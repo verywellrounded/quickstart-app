@@ -9,6 +9,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@types/blueimp-md5": "^2.18.2",
+    "@types/md5": "^2.3.5",
     "@types/w3c-image-capture": "^1.0.10",
     "react-app-rewired": "^2.2.1"
   },
@@ -30,9 +32,11 @@
     "@types/react-dom": "^18.2.7",
     "@zxing/library": "^0.20.0",
     "axios": "^1.5.0",
+    "blueimp-md5": "^2.19.0",
     "firebase": "^10.3.1",
     "firebaseui": "^6.1.0",
     "image-capture": "^0.4.0",
+    "md5": "^2.3.0",
     "react": "^18.2.0",
     "react-cookie": "^6.1.0",
     "react-dom": "^18.2.0",

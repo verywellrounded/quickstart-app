@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "./ImageUploadPreview.css";
-import { IconButton } from "@mui/material";
 import {
   CancelPresentation as CancelPresentationIcon,
   Crop,
   Done,
 } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Receipt } from "../recieptItem";
 import { scanReceipt } from "../utils";
-import { AxiosResponse } from "axios";
+import "./ImageUploadPreview.css";
 import PredictionPreview from "./PredictionPreview";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   file: File;
@@ -18,9 +17,7 @@ type Props = {
 
 const ImageUploadPreview = (props: Props) => {
   const [imgSrcDataURL, setImgSrcDataURL] = useState("");
-  const [responsePayload, setResponsePayload] = useState<
-    AxiosResponse<any, any> | undefined
-  >(undefined);
+  const [responsePayload, setResponsePayload] = useState<Receipt>();
   useEffect(() => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
@@ -71,7 +68,8 @@ const ImageUploadPreview = (props: Props) => {
 
   return (
     <>
-      {responsePayload?.status ? (
+      {/* Need to figure out a good way to handle the error response before getting back to the render function */}
+      {responsePayload ? (
         <PredictionPreview response={responsePayload} />
       ) : (
         imageUI

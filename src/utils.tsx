@@ -1,4 +1,7 @@
 import axios from "axios";
+import { MindeeResponse } from "./components/MindeeResponse";
+import { Receipt, ReceiptItem } from "./recieptItem";
+import md5 from "blueimp-md5";
 const OCRAPIKEY = "K82493492188957";
 
 // Your web app's Firebase configuration
@@ -23,37 +26,34 @@ export const scanReceipt = async (something: any) => {
     // Intermediary caching to not have to query for the same image
     // Cropped scan gave a better total amount and line item discovery but still not great
     // Next task create omage preview and cropability for receipt upload
-    const body = new FormData();
-    console.log(something);
-    body.append("base64Image", something);
-    body.append("detectOrientation", "true");
-    body.append("language", "eng");
-    const config = {
-      headers: {
-        accept: "application/json",
-        apikey: OCRAPIKEY,
-        "content-type": "multipart/form-data",
-      },
-    };
+
     console.log("sending request to OCR API", something);
-    let axiosResp;
-    axiosResp = await axios.post(
-      `https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict`,
-      { document: something },
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "d44b27dce5004787119f751809723882",
-        },
-      }
-    );
-    // // await axios.post(`https://api.ocr.space/parse/image`, body, config);
-    console.log("got response from ocr API", axiosResp);
-    return axiosResp;
+    const scannedReceipt: Receipt = await scanReceiptWithMindee(something);
+    return scannedReceipt;
   } catch (error) {
     console.error(error);
   }
+};
+
+const scanReceiptWithMindee = async (binaryDataUrl: Blob): Promise<Receipt> => {
+  let axiosResp;
+  axiosResp = await axios.post(
+    `https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict`,
+    { document: binaryDataUrl },
+    {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "d44b27dce5004787119f751809723882",
+      },
+    }
+  );
+  console.log("got response from mindee API", axiosResp);
+  //convert to domain specific storage format
+  const mindeeResponse = axiosResp.data as MindeeResponse;
+  const convertedScannedReceipt: Receipt =
+    convertMindeePayloadToReceipt(mindeeResponse);
+  return convertedScannedReceipt;
 };
 
 // Detects if device is on iOS
@@ -66,31 +66,30 @@ export const isIos = () => {
 export const isInStandaloneMode = () =>
   "standalone" in window.navigator && window.navigator.standalone;
 
-// Opera 8.0+
-// export const isOpera =
-//   (!!window.opr && !!opr.addons) ||
-//   !!window.opera ||
-//   navigator.userAgent.indexOf(" OPR/") >= 0;
-
-// Firefox 1.0+
-// export const isFirefox = typeof InstallTrigger !== "undefined";
-
-// Safari 3.0+ "[object HTMLElementConstructor]"
 export const isSafari = () => {
   const userAgent = window.navigator.userAgent.toLowerCase();
   console.log("userAgent", userAgent);
   return /iphone|ipad|ipod/.test(userAgent);
 };
 
-// Internet Explorer 6-11
-// export const isIE = /*@cc_on!@*/ false || !!document.documentMode;
-
-// Edge 20+
-// export const isEdge = !isIE && !!window.StyleMedia;
-
-// Chrome 1 - 71
-// export const isChrome =
-//   // !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-
-// Blink engine detection
-// export const isBlink = (isChrome || isOpera) && !!window.CSS;
+function convertMindeePayloadToReceipt(data: MindeeResponse): Receipt {
+  const inferredReceipt = data.document.inference.prediction;
+  // Follow up if this is a good hash
+  // const sortedLineItems = inferredReceipt.line_items.toSorted();
+  const convertedResponse: Receipt = {
+    receiptHash: md5(JSON.stringify(inferredReceipt.line_items)),
+    uuid: data.document.id,
+    category: inferredReceipt.category.value,
+    items: inferredReceipt.line_items.map((x) => {
+      const item: ReceiptItem = {
+        itemName: x.description,
+        lineItemName: x.description,
+        predicationConfidence: x.confidence,
+        price: x.total_amount,
+      };
+      return item;
+    }),
+    date: inferredReceipt.date.value,
+  };
+  return convertedResponse;
+}
