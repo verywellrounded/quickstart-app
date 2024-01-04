@@ -1,54 +1,127 @@
-.imageCropperContainer {
-  display: grid;
-  grid-template-rows: [top] 10% [subHeader] 5% [main] auto [bottom] 10%;
-  grid-template-columns: [start] 1fr [end] auto;
-  height: 100%;
-  width: 100%;
-  /* border: 5px solid rgb(0, 0, 0); */
+@media (max-width: 412px) {
+  /* .layoutContainer {
+    border: solid salmon;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    /* auto cannot go at the end but has to go in between to fr units
+    grid-template-rows: [frow] 10% [row2] auto [row3] 1fr [lrow] 10%;
+    grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr;
+  } */
+  /* .imageCropperContainer {
+    display: grid;
+    grid-template-rows: [top] 10% [subHeader] 5% [main] auto [bottom] 10%;
+    grid-template-columns: [start] 1fr [end] auto;
+    height: 100%;
+    width: 100%;
+    border: 5px solid rgb(0, 0, 0);
+  } */
+  /* .imageCropperContainer div {
+    display: grid;
+  } */
+  .cropControls {
+    height: 100%;
+    width: 100%;
+    grid-row: row2;
+    grid-column: col2;
+    /* 
+    trying to figure out how to space the row items in the crop controls section
+    grid-template-rows: auto;
+    row-gap: 10fr;*/
+  }
+  .fileInput {
+    display: grid;
+  }
+  .scaleDiv {
+    display: grid;
+  }
+  .rotateDiv {
+    display: grid;
+  }
+  .completedCropContainer {
+    display: grid;
+    gap: 5%;
+    grid-template-rows: [top] 1fr, [bottom] auto;
+  }
+  .previewCanvas {
+    height: 45%;
+    width: 100%;
+    display: grid;
+    grid-row: bottom;
+  }
+  .submitCropButtonContainer {
+    display: grid;
+    grid-row: row3;
+    grid-column: col1;
+  }
+  .imageContainer {
+    /* height: 1024px; */
+    /* width: 440px; */
+    display: grid;
+    grid-row: row3;
+    grid-column: col2;
+  }
+  .ReactCrop {
+    display: grid;
+    height: 55%;
+    width: 100%;
+  }
 }
-/* .imageCropperContainer div {
+
+/*web */
+@media (min-width: 1000px) {
+  .imageCropperContainer {
+    display: grid;
+    grid-template-rows: [top] 10% [subHeader] 5% [main] auto [bottom] 10%;
+    grid-template-columns: [start] 1fr [end] auto;
+    height: 100%;
+    width: 100%;
+    /* border: 5px solid rgb(0, 0, 0); */
+  }
+  /* .imageCropperContainer div {
   display: grid;
 } */
-.cropControls {
-  height: 100%;
-  width: 100%;
-  grid-column: start;
-  /* 
+  .cropControls {
+    height: 100%;
+    width: 100%;
+    grid-column: start;
+    /* 
   trying to figure out how to space the row items in the crop controls section
   grid-template-rows: auto;
   row-gap: 10fr;*/
-}
-.fileInput {
-  height: 100%;
-  width: 100%;
-  display: grid;
-}
-.scaleDiv {
-  display: grid;
-}
-.rotateDiv {
-  display: grid;
-}
-.completedCropContainer {
-  display: grid;
-  gap: 5%;
-  grid-template-rows: [top] 1fr, [bottom] auto;
-}
-.previewCanvas {
-  height: 45%;
-  width: 100%;
-  display: grid;
-  grid-row: bottom;
-}
-.submitCropButtonContainer {
-  display: grid;
-}
-.imageContainer {
-  height: 1024px;
-  width: 440px;
-}
-.ReactCrop {
-  display: grid;
-  height: 55%;
-  width: 100%;
+  }
+  .fileInput {
+    height: 100%;
+    width: 100%;
+    display: grid;
+  }
+  .scaleDiv {
+    display: grid;
+  }
+  .rotateDiv {
+    display: grid;
+  }
+  .completedCropContainer {
+    display: grid;
+    gap: 5%;
+    grid-template-rows: [top] 1fr, [bottom] auto;
+  }
+  .previewCanvas {
+    height: 45%;
+    width: 100%;
+    display: grid;
+    grid-row: bottom;
+  }
+  .submitCropButtonContainer {
+    display: grid;
+  }
+  .imageContainer {
+    height: 1024px;
+    width: 440px;
+  }
+  .ReactCrop {
+    display: grid;
+    height: 55%;
+    width: 100%;
+  }
 }

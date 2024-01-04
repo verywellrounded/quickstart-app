@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@types/w3c-image-capture": "^1.0.10",
     "react-app-rewired": "^2.2.1"
   },
   "dependencies": {
@@ -18,6 +19,8 @@
     "@mui/material": "^5.14.7",
     "@mui/styled-engine-sc": "^5.14.7",
     "@techstark/opencv-js": "^4.8.0-release.9",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs-node": "^4.13.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -29,6 +32,7 @@
     "axios": "^1.5.0",
     "firebase": "^10.3.1",
     "firebaseui": "^6.1.0",
+    "image-capture": "^0.4.0",
     "react": "^18.2.0",
     "react-cookie": "^6.1.0",
     "react-dom": "^18.2.0",
@@ -42,6 +46,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "deploy": "npm run build && npx firebase deploy",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },

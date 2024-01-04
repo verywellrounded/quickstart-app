@@ -1,29 +1,53 @@
-@media (min-width: 500px) {
+@media (max-width: 360px) {
+}
+
+@media (max-width: 375px) {
+}
+/*Going to use this as the mobile design endpoint might not need the above two*/
+/* 412px is the screen size but may make the breakpoint 700px right before ipad */
+@media (max-width: 412px) {
   .layoutContainer {
+    border: solid salmon;
     display: grid;
     width: 100%;
     height: 100%;
     /* auto cannot go at the end but has to go in between to fr units*/
-    /* grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr */
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: [frow] 10% [row2] auto [row3] 1fr [lrow] 10%;
+    grid-template-columns: [col1] 1fr [col2] 50fr [endCol] 1fr; /*Fr is the devil. Needed to make this a size to get centering smooth*/
+  }
+
+  .navcontainer {
+    display: flex;
+    /* border: solid salmon; */
+    grid-row-start: lrow;
+    grid-row-end: lrow;
+    grid-column-start: col1;
+    grid-column-end: endCol;
+    align-self: center; /* vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /*line height looks like */
   }
 }
-.layoutContainer {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  grid-template-rows: [frow] 25% [row2] auto [lrow] 25%;
-  grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr;
-}
 
-.navcontainer {
-  display: flex;
-  /* border: solid salmon; */
-  grid-row-start: lrow;
-  grid-row-end: lrow;
-  grid-column-start: col2;
-  grid-column-end: endCol;
-  align-self: center; /* vertically */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /*line height looks like */
+/*web */
+@media (min-width: 1000px) {
+  .layoutContainer {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: [frow] 25% [row2] auto [lrow] 25%;
+    grid-template-columns: [col1] 1fr [col2] auto [endCol] 1fr;
+  }
+
+  .navcontainer {
+    display: flex;
+    /* border: solid salmon; */
+    grid-row-start: lrow;
+    grid-row-end: lrow;
+    grid-column-start: col2;
+    grid-column-end: endCol;
+    align-self: center; /* vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /*line height looks like */
+  }
 }

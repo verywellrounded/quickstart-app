@@ -1,0 +1,19 @@
+.imageContainer {
+  /* need container so can specify where to place in grid*/
+  grid-row: row2/row3;
+  grid-column: col2;
+  min-height: 0;
+  min-width: 0;
+  overflow: scroll; /* Need this to scroll instead of overflow container*/
+}
+
+.imageContainer > img {
+  grid-row: row2/row3;
+  grid-column: col2;
+  max-width: 100%; /* sizing img here instead of on img tag* Is it different from width on img*/
+}
+.cropMenu {
+  grid-row: row2/row3;
+  grid-column: col2;
+  justify-self: center;
+}
