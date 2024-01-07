@@ -18,9 +18,10 @@ export default function Auth() {
   const [googleErrorMessage, setGoogleErrorMessage] = useState("");
   const [cookies, setCookie] = useCookies(["userDetails"]);
 
-  function saveUserInfo(user: User) {
+  async function saveUserInfo(user: User) {
     try {
-      addDoc(collection(db, "users"), {
+      const usersCollection = collection(db, "users");
+      const docRef = await addDoc(usersCollection, {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
@@ -28,16 +29,11 @@ export default function Auth() {
         lastLogin: user.metadata.lastSignInTime,
         providerId: user.providerId,
       });
-      // console.log("Document written with ID: ", docRef.id);
+      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
     console.log("Signed in user creds", user);
-    setCookie("userDetails", {
-      uid: user.uid,
-      displayName: user.displayName,
-      token: user.getIdToken(false),
-    });
   }
 
   // Instantiate the auth service SDK
@@ -62,7 +58,12 @@ export default function Auth() {
       // Pull signed-in user credential.
       const user = result.user;
       console.log("Signed in result", result);
-      saveUserInfo(user);
+      await saveUserInfo(user);
+      setCookie("userDetails", {
+        uid: user.uid,
+        displayName: user.displayName,
+        token: user.getIdToken(false),
+      });
       window.location.assign("/home");
     } catch (err: any) {
       // Handle errors here.

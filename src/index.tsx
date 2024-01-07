@@ -22,8 +22,8 @@ import { firebaseConfig } from "./utils";
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-//use emulator
-connectFirestoreEmulator(db, "127.0.0.1", 9098);
+//use emulator Need to be commented out in prod
+// connectFirestoreEmulator(db, "127.0.0.1", 9098);
 const analytics = getAnalytics(app);
 // firebase login
 // firebase init
@@ -34,9 +34,9 @@ const initApp = () => {
     getAuth(),
     (user) => {
       if (user) {
-        // User is signed in.
+        console.log("User is signed in.");
       } else {
-        // User is signed out.
+        console.log("User is signed out.");
       }
     },
     function (error) {
