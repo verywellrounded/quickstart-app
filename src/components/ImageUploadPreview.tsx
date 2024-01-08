@@ -15,6 +15,11 @@ type Props = {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 };
 
+/**
+ * This is the UI that displays the manually scanned receipt. It allows the user to discard the image, crop the image, or submit to call the scan API
+ * @param props
+ * @returns
+ */
 const ImageUploadPreview = (props: Props) => {
   const [imgSrcDataURL, setImgSrcDataURL] = useState("");
   const [responsePayload, setResponsePayload] = useState<Receipt>();

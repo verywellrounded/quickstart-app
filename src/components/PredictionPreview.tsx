@@ -1,31 +1,44 @@
-import React from "react";
-import { IconButton } from "@mui/material";
 import {
   CancelPresentation as CancelPresentationIcon,
-  Edit,
   Done,
+  Edit,
 } from "@mui/icons-material";
-import "./PredictionPreview.css";
+import { IconButton } from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { db } from "..";
+import { Receipt } from "../recieptItem";
+import InventoryList from "./InventoryList";
+import "./PredictionPreview.css";
 
-type Props = { response: unknown };
+type Props = { response: Receipt };
 
+/**
+ * This is the screen that allows a user to modify the scan results
+ * @param props
+ * @returns
+ */
 const PredictionPreview = (props: Props) => {
   const navigate = useNavigate();
-  const saveAndFinishScanFlow = (e: unknown) => {
+  const saveAndFinishScanFlow = async (e: unknown) => {
     // save to database
+    const receiptsCollection = collection(db, "receipts");
+    const docRef = await addDoc(receiptsCollection, props.response);
+    console.log("saved receipt", docRef.id);
     navigate("/home");
   };
   const ButtonBar = (
     <>
       <div className="editMenu">
         <IconButton
+          edge="end"
           className="closeButton"
           //   onClick={}
         >
           <CancelPresentationIcon fontSize="large" />
         </IconButton>
         <IconButton
+          edge="end"
           className="cropButton"
           //   onClick={}
         >
@@ -42,11 +55,13 @@ const PredictionPreview = (props: Props) => {
       <div className="titleDiv">
         <h1>PredictionPreview</h1>
       </div>
-      {ButtonBar}
       <div className="responseDisplayContainer">
-        <pre>
-          <code> {JSON.stringify(props.response, null, "  ")} </code>
-        </pre>
+        {ButtonBar}
+        {/* Should manage some coversion here to get count on recieptItem */}
+        <InventoryList
+          key={props.response.items.toLocaleString()}
+          listItems={props.response.items}
+        ></InventoryList>
       </div>
     </>
   );

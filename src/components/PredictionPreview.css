@@ -5,9 +5,8 @@
 }
 
 .editMenu {
-  grid-area: frow/ col1/ frow/ endCol;
-  justify-self: center;
-  align-self: end;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .responseDisplayContainer {
