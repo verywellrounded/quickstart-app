@@ -11,11 +11,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Auth from "./components/Auth";
 import Home from "./components/Home";
 import Signin from "./components/Signin";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import * as serviceWorker from "./serviceWorkerRegistration";
 import Scan from "./components/Scan";
 import "./index.css";
 import { firebaseConfig } from "./utils";
+import FoodInventory from "./FoodInventory";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -59,7 +60,7 @@ const router = createBrowserRouter(
     { path: "/home", element: <Home /> },
     { path: "/auth", element: <Auth /> },
     { path: "/signin", element: <Signin /> },
-    { path: "/foodbank", element: <Signin /> },
+    { path: "/foodbank", element: <FoodInventory /> },
     { path: "/explore", element: <Signin /> },
     { path: "/scan", element: <Scan /> },
   ]

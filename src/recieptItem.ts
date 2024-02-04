@@ -12,4 +12,5 @@ export type Receipt = {
   category: string;
   items: ReceiptItem[];
   date: string;
+  userId: string;
 };

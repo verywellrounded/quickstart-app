@@ -20,12 +20,14 @@ type Props = { response: Receipt };
  */
 const PredictionPreview = (props: Props) => {
   const navigate = useNavigate();
-  const saveAndFinishScanFlow = async (e: unknown) => {
+  const saveAndFinishScanFlow = async (e: unknown, props: Props) => {
     // save to database
     const receiptsCollection = collection(db, "receipts");
+    //TODO: Add linting for shadowing
+    console.log("Log out local props not parent", props);
     const docRef = await addDoc(receiptsCollection, props.response);
     console.log("saved receipt", docRef.id);
-    navigate("/home");
+    navigate("/foodbank");
   };
   const ButtonBar = (
     <>
@@ -44,7 +46,10 @@ const PredictionPreview = (props: Props) => {
         >
           <Edit fontSize="large" />
         </IconButton>
-        <IconButton className="AcceptButton" onClick={saveAndFinishScanFlow}>
+        <IconButton
+          className="AcceptButton"
+          onClick={(e) => saveAndFinishScanFlow(e, props)}
+        >
           <Done fontSize="large" />
         </IconButton>
       </div>

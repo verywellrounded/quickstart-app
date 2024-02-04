@@ -2,6 +2,7 @@ import axios from "axios";
 import { MindeeResponse } from "./components/MindeeResponse";
 import { Receipt, ReceiptItem } from "./recieptItem";
 import md5 from "blueimp-md5";
+import { getAuth } from "firebase/auth";
 const OCRAPIKEY = "K82493492188957";
 
 // Your web app's Firebase configuration
@@ -90,6 +91,7 @@ function convertMindeePayloadToReceipt(data: MindeeResponse): Receipt {
       return item;
     }),
     date: inferredReceipt.date.value,
+    userId: getAuth().currentUser?.uid ?? "",
   };
   return convertedResponse;
 }
