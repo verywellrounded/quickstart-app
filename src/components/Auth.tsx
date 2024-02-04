@@ -7,7 +7,15 @@ import {
   signInWithPopup,
   signInWithRedirect,
 } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { db } from "..";
@@ -20,16 +28,30 @@ export default function Auth() {
 
   async function saveUserInfo(user: User) {
     try {
+      //TODO: Could caching be implemented here to save of reads/ writes ?
       const usersCollection = collection(db, "users");
-      const docRef = await addDoc(usersCollection, {
-        uid: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-        created: user.metadata.creationTime,
-        lastLogin: user.metadata.lastSignInTime,
-        providerId: user.providerId,
-      });
-      console.log("Document written with ID: ", docRef.id);
+      const q = query(usersCollection, where("email", "==", user.email));
+      // Check if user is already stored
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        // If so then update last login
+        const docId = querySnapshot.docs[0].id;
+        await updateDoc(doc(db, "users", docId), {
+          lastLogin: user.metadata.lastSignInTime,
+        });
+        console.log("Updated written with ID: ", docId);
+      } else {
+        //If not save
+        const docRef = await addDoc(usersCollection, {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          created: user.metadata.creationTime,
+          lastLogin: user.metadata.lastSignInTime,
+          providerId: user.providerId,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      }
     } catch (e) {
       console.error("Error adding document: ", e);
     }
