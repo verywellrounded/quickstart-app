@@ -38,6 +38,7 @@
     "image-capture": "^0.4.0",
     "md5": "^2.3.0",
     "react": "^18.2.0",
+    "react-app-rewire-eslint": "^0.2.3",
     "react-cookie": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-image-crop": "^10.1.8",
