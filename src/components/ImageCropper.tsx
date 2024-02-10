@@ -160,7 +160,8 @@ export default function App() {
     ).length;
     console.log("image size in bytes", fileSize);
     console.log("image size in mb", fileSize / 1000000);
-    scanReceipt(base64ImageUrl);
+    //need ref for file if going to use this anymore
+    // scanReceipt(base64ImageUrl);
     // window.location.assign("/home");
   }
 

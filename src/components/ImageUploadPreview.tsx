@@ -23,6 +23,8 @@ type Props = {
 const ImageUploadPreview = (props: Props) => {
   const [imgSrcDataURL, setImgSrcDataURL] = useState("");
   const [responsePayload, setResponsePayload] = useState<Receipt>();
+  // defaulting on saving the scan if isDuplicate is meaning possibility for duplicates over lost data
+  const [isDuplicateScan, setIsDuplicateScan] = useState<boolean>(false);
   useEffect(() => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
@@ -33,8 +35,13 @@ const ImageUploadPreview = (props: Props) => {
 
   const clickedDoneButton = async (e: unknown) => {
     try {
-      const response = await scanReceipt(imgSrcDataURL);
-      setResponsePayload(response);
+      // TODO: Spinner UX
+      const { scannedReceipt, isDuplicateScan } = await scanReceipt(
+        imgSrcDataURL,
+        props.file
+      );
+      setResponsePayload(scannedReceipt);
+      setIsDuplicateScan(isDuplicateScan);
     } catch (e: unknown) {
       console.log(
         "Logging this error as we may need to retry to keep a good UX",
@@ -75,7 +82,10 @@ const ImageUploadPreview = (props: Props) => {
     <>
       {/* Need to figure out a good way to handle the error response before getting back to the render function */}
       {responsePayload ? (
-        <PredictionPreview response={responsePayload} />
+        <PredictionPreview
+          response={responsePayload}
+          isDuplicate={isDuplicateScan}
+        />
       ) : (
         imageUI
       )}

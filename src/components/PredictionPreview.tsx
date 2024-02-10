@@ -11,7 +11,7 @@ import { Receipt } from "../recieptItem";
 import InventoryList from "./InventoryList";
 import "./PredictionPreview.css";
 
-type Props = { response: Receipt };
+type Props = { response: Receipt; isDuplicate: boolean };
 
 /**
  * This is the screen that allows a user to modify the scan results
@@ -21,12 +21,17 @@ type Props = { response: Receipt };
 const PredictionPreview = (props: Props) => {
   const navigate = useNavigate();
   const saveAndFinishScanFlow = async (e: unknown, props: Props) => {
-    // save to database
-    const receiptsCollection = collection(db, "receipts");
-    //TODO: Add linting for shadowing
-    console.log("Log out local props not parent", props);
-    const docRef = await addDoc(receiptsCollection, props.response);
-    console.log("saved receipt", docRef.id);
+    // Does type coercision from undefined to false help here any?
+    // Undefined will happen if the catch block of scanReceipt is reached
+    if (!props.isDuplicate) {
+      // save to database
+      const receiptsCollection = collection(db, "receipts");
+      //TODO: Add linting for shadowing
+      console.log("Log out local props not parent", props);
+      const docRef = await addDoc(receiptsCollection, props.response);
+      //TODO: Need some type of try catch cause this seems to cause issues alot
+      console.log("saved receipt", docRef.id);
+    }
     navigate("/foodbank");
   };
   const ButtonBar = (

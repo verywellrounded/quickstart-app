@@ -8,6 +8,7 @@ export type ReceiptItem = {
 
 export type Receipt = {
   receiptHash: string; // hash of binary data or line items
+  originalFileHash: string; // should I make this the uuid?
   uuid: string;
   category: string;
   items: ReceiptItem[];

@@ -1,8 +1,11 @@
 import axios from "axios";
-import { MindeeResponse } from "./components/MindeeResponse";
-import { Receipt, ReceiptItem } from "./recieptItem";
 import md5 from "blueimp-md5";
 import { getAuth } from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from ".";
+import { RECEIPTS_COLLECTION_NAME } from "./Constants";
+import { MindeeResponse } from "./components/MindeeResponse";
+import { Receipt, ReceiptItem } from "./recieptItem";
 const OCRAPIKEY = "K82493492188957";
 
 // Your web app's Firebase configuration
@@ -17,7 +20,7 @@ export const firebaseConfig = {
   measurementId: "G-HQLDYFN4L2",
 };
 
-export const scanReceipt = async (something: any) => {
+export const scanReceipt = async (something: any, originalFile: File) => {
   try {
     // Using the OCR.space default free API key (max 10reqs in 10mins) + remote file
     //TODO: Really might have to pay for receipt scanning service. The one free OCR service has a file limit of 1024kb
@@ -28,15 +31,52 @@ export const scanReceipt = async (something: any) => {
     // Cropped scan gave a better total amount and line item discovery but still not great
     // Next task create omage preview and cropability for receipt upload
 
-    console.log("sending request to OCR API", something);
-    const scannedReceipt: Receipt = await scanReceiptWithMindee(something);
-    return scannedReceipt;
+    // Before making a call to scan query db for hash of fileProperties
+    const originalFileHash = hashOf(
+      originalFile.name,
+      originalFile.type,
+      originalFile.lastModified
+    );
+
+    console.log("hash of original file", originalFileHash);
+    const receiptsCollection = collection(db, RECEIPTS_COLLECTION_NAME);
+    const q = query(
+      receiptsCollection,
+      where("originalFileHash", "==", originalFileHash)
+    );
+    // Check if user is already stored
+    const querySnapshot = await getDocs(q);
+    console.log("querySnap", querySnapshot);
+    if (!querySnapshot.empty) {
+      // If so then update last login
+      const docId = querySnapshot.docs[0].id;
+      // Notifiy that file seems like a duplicate so using already process value
+      console.log(
+        "Duplicate scan detected using stored receipt with ID: ",
+        docId
+      );
+      return {
+        scannedReceipt: querySnapshot.docs[0].data() as Receipt,
+        isDuplicateScan: true,
+      };
+    } else {
+      console.log("sending request to OCR API", something);
+      const scannedReceipt: Receipt = await scanReceiptWithMindee(
+        something,
+        originalFileHash
+      );
+      return { scannedReceipt, isDuplicateScan: false };
+    }
   } catch (error) {
     console.error(error);
+    return { scannedReceipt: undefined, isDuplicateScan: false };
   }
 };
 
-const scanReceiptWithMindee = async (binaryDataUrl: Blob): Promise<Receipt> => {
+const scanReceiptWithMindee = async (
+  binaryDataUrl: Blob,
+  originalFileHash: string
+): Promise<Receipt> => {
   let axiosResp;
   axiosResp = await axios.post(
     `https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict`,
@@ -52,8 +92,10 @@ const scanReceiptWithMindee = async (binaryDataUrl: Blob): Promise<Receipt> => {
   console.log("got response from mindee API", axiosResp);
   //convert to domain specific storage format
   const mindeeResponse = axiosResp.data as MindeeResponse;
-  const convertedScannedReceipt: Receipt =
-    convertMindeePayloadToReceipt(mindeeResponse);
+  const convertedScannedReceipt: Receipt = convertMindeePayloadToReceipt(
+    mindeeResponse,
+    originalFileHash
+  );
   return convertedScannedReceipt;
 };
 
@@ -73,12 +115,26 @@ export const isSafari = () => {
   return /iphone|ipad|ipod/.test(userAgent);
 };
 
-function convertMindeePayloadToReceipt(data: MindeeResponse): Receipt {
+/**
+ *
+ * @param data Hash all the elements provided via a common hashing function.
+ *  Sorts then stringifys data to avoid mismatch in hash of the same data
+ * @returns
+ */
+export function hashOf(...data: unknown[]) {
+  //toSorted causing issues with transpiler not able to understand esnextarray
+  return md5(JSON.stringify(data));
+}
+
+function convertMindeePayloadToReceipt(
+  data: MindeeResponse,
+  originalFileHash: string
+): Receipt {
   const inferredReceipt = data.document.inference.prediction;
   // Follow up if this is a good hash
   // const sortedLineItems = inferredReceipt.line_items.toSorted();
   const convertedResponse: Receipt = {
-    receiptHash: md5(JSON.stringify(inferredReceipt.line_items)),
+    receiptHash: hashOf(inferredReceipt.line_items),
     uuid: data.document.id,
     category: inferredReceipt.category.value,
     items: inferredReceipt.line_items.map((x) => {
@@ -92,6 +148,7 @@ function convertMindeePayloadToReceipt(data: MindeeResponse): Receipt {
     }),
     date: inferredReceipt.date.value,
     userId: getAuth().currentUser?.uid ?? "",
+    originalFileHash: originalFileHash,
   };
   return convertedResponse;
 }
