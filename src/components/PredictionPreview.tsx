@@ -34,13 +34,17 @@ const PredictionPreview = (props: Props) => {
     }
     navigate("/foodbank");
   };
+  const cancelPredictionPreview = (e: unknown) => {
+    console.log("cancelled predication preview", e);
+    window.location.reload();
+  };
   const ButtonBar = (
     <>
       <div className="editMenu">
         <IconButton
           edge="end"
           className="closeButton"
-          //   onClick={}
+          onClick={cancelPredictionPreview}
         >
           <CancelPresentationIcon fontSize="large" />
         </IconButton>
