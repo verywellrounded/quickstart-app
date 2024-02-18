@@ -1,11 +1,19 @@
 import axios from "axios";
 import md5 from "blueimp-md5";
 import { getAuth } from "firebase/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  DocumentReference,
+  QueryFieldFilterConstraint,
+  collection,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from ".";
 import { RECEIPTS_COLLECTION_NAME } from "./Constants";
 import { MindeeResponse } from "./components/MindeeResponse";
-import { Receipt, ReceiptItem } from "./recieptItem";
+import { Receipt, ReceiptItem } from "./receiptItem";
 const OCRAPIKEY = "K82493492188957";
 
 // Your web app's Firebase configuration
@@ -19,7 +27,43 @@ export const firebaseConfig = {
   appId: "1:1026041567712:web:e5f407aeb63ee015887385",
   measurementId: "G-HQLDYFN4L2",
 };
+/**
+ * if there are multiple results for the query only the first will be updated
+ * First iteration just works for receipts will make more generic  as needed
+ * @param q
+ * @param updatedReceipt
+ */
+export const updateDocument = async (
+  tableName: string,
+  whereClause: QueryFieldFilterConstraint,
+  updatedDocument: Receipt
+) => {
+  const receiptsCollection = collection(db, tableName);
+  // is there a benefit to using this or collapsing uuid to this where("originalFileHash", "==", props.response.originalFileHash)
+  const q = query(receiptsCollection, whereClause);
+  const querySnapshot = await getDocs(q);
+  console.log(`Retrieved ${querySnapshot.size} docs`);
+  if (querySnapshot.size > 1) {
+    console.warn(
+      `There are duplicate records for query: ${querySnapshot.query}`
+    );
+  }
+  const docReceiptMap: { docRef: DocumentReference; receipt: Receipt }[] =
+    querySnapshot.docs.map((doc) => {
+      const receipt = { ...(doc.data() as unknown as Receipt) };
+      return { docRef: doc.ref, receipt };
+    });
 
+  // only update the first if there are duplicates
+  const firstDoc = docReceiptMap[0];
+  firstDoc.receipt = updatedDocument;
+  try {
+    await updateDoc(firstDoc.docRef, firstDoc.receipt);
+  } catch (e: any) {
+    console.error(`Failed to update first document in ${docReceiptMap}`, e);
+    //TODO: What should we do here ? Can the user fix this ?
+  }
+};
 export const scanReceipt = async (something: any, originalFile: File) => {
   try {
     // Using the OCR.space default free API key (max 10reqs in 10mins) + remote file

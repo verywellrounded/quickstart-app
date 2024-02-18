@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { db } from ".";
 import Layout from "./components/Layout";
-import { Receipt } from "./recieptItem";
+import { Receipt } from "./receiptItem";
 
 type Props = {};
 

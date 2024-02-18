@@ -8,7 +8,7 @@ import {
   ListItemAvatar,
   TextField,
 } from "@mui/material";
-import { ReceiptItem } from "../recieptItem";
+import { ReceiptItem } from "../receiptItem";
 import _ from "lodash";
 type Props = {
   listItems: ReceiptItem[];

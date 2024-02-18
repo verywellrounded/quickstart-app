@@ -1,18 +1,11 @@
 import { CancelPresentation, Done, Edit } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import {
-  DocumentReference,
-  addDoc,
-  collection,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, where } from "firebase/firestore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "..";
-import { Receipt, ReceiptItem } from "../recieptItem";
+import { Receipt, ReceiptItem } from "../receiptItem";
+import { updateDocument } from "../utils";
 import InventoryList from "./InventoryList";
 import "./PredictionPreview.css";
 
@@ -43,9 +36,9 @@ const PredictionPreview = (props: Props) => {
     }
     return true;
   };
-  //TODO: Maybe change to edit top level reciept things too?
+  //TODO: Maybe change to edit top level receipt things too?
   const saveAndFinishScanFlow = async (e: unknown, props: Props) => {
-    // Does type coercision from undefined to false help here any?
+    // Does type coercion from undefined to false help here any?
     // Undefined will happen if the catch block of scanReceipt is reached
     if (!props.isDuplicate) {
       // save to database
@@ -56,37 +49,14 @@ const PredictionPreview = (props: Props) => {
       //TODO: Need some type of try catch cause this seems to cause issues alot
       console.log("saved receipt", docRef.id);
     } else if (props.isDuplicate && !isItemsUnedited()) {
-      const receiptsCollection = collection(db, "receipts");
-      const q = query(
-        receiptsCollection,
-        where("uuid", "==", props.response.uuid)
-        // where("originalFileHash", "==", props.response.originalFileHash)
+      await updateDocument(
+        "receipts",
+        where("uuid", "==", props.response.uuid),
+        {
+          ...props.response,
+          items: predictionPreviewItems,
+        }
       );
-      const querySnapshot = await getDocs(q);
-      console.log(`Retrieved ${querySnapshot.size} docs`);
-      if (querySnapshot.size > 1) {
-        console.warn(
-          `There are duplicate records with uuid: ${props.response.uuid}`
-        );
-      }
-
-      const docReceiptMap: { docRef: DocumentReference; receipt: Receipt }[] =
-        querySnapshot.docs.map((doc) => {
-          console.log("doc data", doc.data());
-          console.log("doc metadata", doc.metadata);
-          const receipt = { ...(doc.data() as unknown as Receipt) };
-          console.log("receipt", receipt);
-          return { docRef: doc.ref, receipt };
-        });
-      // only update the first if there are duplicates
-      const firstDoc = docReceiptMap[0];
-      firstDoc.receipt.items = predictionPreviewItems;
-      try {
-        await updateDoc(firstDoc.docRef, firstDoc.receipt);
-      } catch (e: any) {
-        console.error(`Failed to update first document in ${docReceiptMap}`, e);
-        //TODO: What should we do here ? Can the user fix this ?
-      }
     }
     navigate("/foodbank");
   };

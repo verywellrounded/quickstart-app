@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Receipt } from "../recieptItem";
+import { Receipt } from "../receiptItem";
 import { scanReceipt } from "../utils";
 import "./ImageUploadPreview.css";
 import PredictionPreview from "./PredictionPreview";

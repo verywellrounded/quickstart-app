@@ -1,5 +1,5 @@
 import { List } from "@mui/material";
-import { ReceiptItem } from "../recieptItem";
+import { ReceiptItem } from "../receiptItem";
 import EditableInventoryItem from "./EditableInventoryItem";
 import InventoryItem from "./InventoryItem";
 
