@@ -10,6 +10,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@types/blueimp-md5": "^2.18.2",
+    "@types/lodash": "^4.14.202",
     "@types/md5": "^2.3.5",
     "@types/w3c-image-capture": "^1.0.10",
     "react-app-rewired": "^2.2.1"

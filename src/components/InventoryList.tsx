@@ -1,10 +1,15 @@
-import React from "react";
-import { ReceiptItem } from "../recieptItem";
-import InventoryItem from "./InventoryItem";
 import { List } from "@mui/material";
+import { ReceiptItem } from "../recieptItem";
+import EditableInventoryItem from "./EditableInventoryItem";
+import InventoryItem from "./InventoryItem";
 
 type Props = {
   listItems: ReceiptItem[];
+  isEditable: boolean;
+  setIsEditable: unknown;
+  setPredictionPreviewItems: React.Dispatch<
+    React.SetStateAction<ReceiptItem[]>
+  >;
 };
 /**
  * Wraps mui List component
@@ -37,9 +42,19 @@ const emptyInventoryListUI = () => {
 const InventoryList = (props: Props) => {
   return (
     <div className="container">
-      {props.listItems
-        ? inventoryListUI(props.listItems)
-        : emptyInventoryListUI()}
+      {props.listItems ? (
+        props.isEditable ? (
+          <EditableInventoryItem
+            listItems={props.listItems}
+            setIsEditable={props.setIsEditable}
+            setPredictionPreviewItems={props.setPredictionPreviewItems}
+          />
+        ) : (
+          inventoryListUI(props.listItems)
+        )
+      ) : (
+        emptyInventoryListUI()
+      )}
     </div>
   );
 };
