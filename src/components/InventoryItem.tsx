@@ -14,7 +14,10 @@ type Props = {
  */
 const InventoryItem = (props: Props) => {
   return (
-    <ListItem>
+    <ListItem
+      key={props.label + props.count}
+      style={{ border: "1px solid grey" }}
+    >
       <ListItemAvatar>
         <Avatar>
           <LocalDiningRoundedIcon />

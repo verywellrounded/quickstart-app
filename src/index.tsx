@@ -16,7 +16,7 @@ import * as serviceWorker from "./serviceWorkerRegistration";
 import Scan from "./components/Scan";
 import "./index.css";
 import { firebaseConfig } from "./utils";
-import FoodInventory from "./FoodInventory";
+import FoodInventory from "./components/FoodInventory";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 

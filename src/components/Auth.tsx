@@ -19,7 +19,6 @@ import {
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { db } from "..";
-import { isIos } from "../utils";
 
 export default function Auth() {
   const [error, setError] = useState(false);
