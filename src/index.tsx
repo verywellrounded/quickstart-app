@@ -49,6 +49,14 @@ const initApp = () => {
 window.addEventListener("load", function () {
   initApp();
 });
+// reroute projectId.web.app domain to projectId.firebaseapp.com to lessen confusion about the redirect issue
+// https://firebase.google.com/docs/auth/web/redirect-best-practices
+// https://stackoverflow.com/questions/61396081/how-to-turn-off-default-domain-in-firebase-hosting-firebase
+window.addEventListener("load", function () {
+  if (window.location.hostname === `${firebaseConfig.projectId}.web.app`) {
+    window.location.href = `http://${firebaseConfig.authDomain}`;
+  }
+});
 
 const router = createBrowserRouter(
   [
