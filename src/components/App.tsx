@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import "./App.css";
 import Layout from "./Layout";
 
+// TODO: Should change this to the preauth experience. And make auth the landing page.
 function App() {
   const navigate = useNavigate(); // Strange that you have to declare the function here and cannot just import it
   const [cookies] = useCookies(["userDetails"]);
@@ -12,21 +13,18 @@ function App() {
     window.location.assign("/home");
   }
   return (
-    <>
-      <link rel="manifest" href="/manifest.json"></link>
-      <Layout displayNavBar={true}>
-        <span className="bannerText">
-          <h1> Nutritionist</h1>
-        </span>
-        <Button
-          variant="contained"
-          className="signInButton"
-          onClick={() => navigate("auth")}
-        >
-          Login/SignUp
-        </Button>
-      </Layout>
-    </>
+    <Layout displayNavBar={true}>
+      <span className="bannerText">
+        <h1> Nutritionist</h1>
+      </span>
+      <Button
+        variant="contained"
+        className="signInButton"
+        onClick={() => navigate("auth")}
+      >
+        Login/SignUp
+      </Button>
+    </Layout>
   );
 }
 

@@ -19,6 +19,9 @@ import {
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { db } from "..";
+import Layout from "./Layout";
+import "./Auth.css";
+import { Button } from "@mui/material";
 
 export default function Auth() {
   const [error, setError] = useState(false);
@@ -133,26 +136,22 @@ export default function Auth() {
   };
 
   return (
-    <>
-      <link rel="manifest" href="/manifest.json"></link>
-      <h1>Authentication Page</h1>
-      <div className="signupContainer">
-        <div className="signupContainer__box__google">
-          <button onClick={handleGoogleSignUp}>
-            <span>
-              <img src={"/googleLogo.svg"} alt="Google Logo" />
-            </span>
-            Sign Up with Google
-          </button>
-          {error && <p>{googleErrorMessage}</p>}
-        </div>
+    <Layout displayNavBar={false}>
+      <h1 className="bannerText">Authentication Page</h1>
+      <div className="signupContainer__box__google">
+        {/* //TODO: Wanna change this so the text is below the icon but this will do for now */}
 
-        <div className="signupContainer__box__login">
-          <p>
-            Already have an account? <a href="/signin">Sign In</a>
-          </p>
-        </div>
+        <Button onClick={handleGoogleSignUp}>
+          <span>
+            <img
+              src={"1844710_grape_nutrition_food_icon.svg"}
+              alt="Grape Logo"
+            />
+          </span>
+          Sign Up with Google
+        </Button>
+        {error && <p>{googleErrorMessage}</p>}
       </div>
-    </>
+    </Layout>
   );
 }

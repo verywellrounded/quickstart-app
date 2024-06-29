@@ -7,16 +7,15 @@ import reportWebVitals from "./reportWebVitals";
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Auth from "./components/Auth";
+import FoodInventory from "./components/FoodInventory";
 import Home from "./components/Home";
-import Signin from "./components/Signin";
-import { getFirestore } from "firebase/firestore";
-import * as serviceWorker from "./serviceWorkerRegistration";
 import Scan from "./components/Scan";
 import "./index.css";
+import * as serviceWorker from "./serviceWorkerRegistration";
 import { firebaseConfig } from "./utils";
-import FoodInventory from "./components/FoodInventory";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -64,12 +63,10 @@ const router = createBrowserRouter(
       path: "/",
       element: <App />,
     },
-    // { path: "/signin", element:<Signin />},
     { path: "/home", element: <Home /> },
     { path: "/auth", element: <Auth /> },
-    { path: "/signin", element: <Signin /> },
     { path: "/foodbank", element: <FoodInventory /> },
-    { path: "/explore", element: <Signin /> },
+    // { path: "/explore", element: <Explore /> },
     { path: "/scan", element: <Scan /> },
   ]
   // createRoutesFromElements(
