@@ -1,16 +1,31 @@
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-
-// TODO: Need to check auth is good here and redirect to home.
+import Button from "@mui/material/Button";
+import "./App.css";
+import Layout from "./Layout";
 
 function App() {
   const navigate = useNavigate(); // Strange that you have to declare the function here and cannot just import it
+  const [cookies] = useCookies(["userDetails"]);
+  if (cookies.userDetails?.uid) {
+    // TODO: Enhance security
+    window.location.assign("/home");
+  }
   return (
     <>
       <link rel="manifest" href="/manifest.json"></link>
-      <div className="loginButtonContainer">
-        <button onClick={() => navigate("auth")}>Login/SignUp</button>
-      </div>
-      {/* <Signin app={getApp()} /> */}
+      <Layout displayNavBar={true}>
+        <span className="bannerText">
+          <h1> Nutritionist</h1>
+        </span>
+        <Button
+          variant="contained"
+          className="signInButton"
+          onClick={() => navigate("auth")}
+        >
+          Login/SignUp
+        </Button>
+      </Layout>
     </>
   );
 }

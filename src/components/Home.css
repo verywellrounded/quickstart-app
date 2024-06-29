@@ -1,5 +1,5 @@
 .signOutButton {
-  grid-column: "endCol";
+  grid-column: "lastCol";
   grid-row-start: "row1";
 }
 
@@ -7,7 +7,7 @@
   border: "solid 1px navy";
   display: "grid";
   grid-column-start: "col2";
-  grid-column-end: "endCol";
+  grid-column-end: "lastCol";
   grid-row-start: "row2";
   height: "100%";
   width: "100%";

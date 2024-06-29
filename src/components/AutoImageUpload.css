@@ -2,7 +2,7 @@
   display: grid;
   height: 100%;
   width: 100%;
-  grid-row: frow / row3;
+  grid-row: row1 / row3;
   grid-column: col1 / endcCol;
 }
 .videoContainer {
