@@ -9,6 +9,10 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@testing-library/react": "^14.2.1",
+    "@types/blueimp-md5": "^2.18.2",
+    "@types/lodash": "^4.14.202",
+    "@types/md5": "^2.3.5",
     "@types/w3c-image-capture": "^1.0.10",
     "react-app-rewired": "^2.2.1"
   },
@@ -22,7 +26,6 @@
     "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow/tfjs-node": "^4.13.0",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.44",
@@ -30,16 +33,21 @@
     "@types/react-dom": "^18.2.7",
     "@zxing/library": "^0.20.0",
     "axios": "^1.5.0",
+    "blueimp-md5": "^2.19.0",
     "firebase": "^10.3.1",
     "firebaseui": "^6.1.0",
     "image-capture": "^0.4.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "md5": "^2.3.0",
     "react": "^18.2.0",
+    "react-app-rewire-eslint": "^0.2.3",
     "react-cookie": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-image-crop": "^10.1.8",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.11",
+    "ts-jest": "^29.1.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -54,6 +62,26 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "html": "<html lang=\"zh-cmn-Hant\"></html>",
+      "url": "https://jestjs.io/",
+      "userAgent": "Agent/007"
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   },
   "browserslist": {

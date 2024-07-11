@@ -1,26 +1,30 @@
-import React, { useEffect, useState } from "react";
-import "./ImageUploadPreview.css";
-import { IconButton } from "@mui/material";
 import {
   CancelPresentation as CancelPresentationIcon,
   Crop,
   Done,
 } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Receipt } from "../receiptItem";
 import { scanReceipt } from "../utils";
-import { AxiosResponse } from "axios";
+import "./ImageUploadPreview.css";
 import PredictionPreview from "./PredictionPreview";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   file: File;
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 };
 
+/**
+ * This is the UI that displays the manually scanned receipt. It allows the user to discard the image, crop the image, or submit to call the scan API
+ * @param props
+ * @returns
+ */
 const ImageUploadPreview = (props: Props) => {
   const [imgSrcDataURL, setImgSrcDataURL] = useState("");
-  const [responsePayload, setResponsePayload] = useState<
-    AxiosResponse<any, any> | undefined
-  >(undefined);
+  const [responsePayload, setResponsePayload] = useState<Receipt>();
+  // defaulting on saving the scan if isDuplicate is meaning possibility for duplicates over lost data
+  const [isDuplicateScan, setIsDuplicateScan] = useState<boolean>(false);
   useEffect(() => {
     const reader = new FileReader();
     reader.addEventListener("load", () => {
@@ -31,8 +35,13 @@ const ImageUploadPreview = (props: Props) => {
 
   const clickedDoneButton = async (e: unknown) => {
     try {
-      const response = await scanReceipt(imgSrcDataURL);
-      setResponsePayload(response);
+      // TODO: Spinner UX
+      const { scannedReceipt, isDuplicateScan } = await scanReceipt(
+        imgSrcDataURL,
+        props.file
+      );
+      setResponsePayload(scannedReceipt);
+      setIsDuplicateScan(isDuplicateScan);
     } catch (e: unknown) {
       console.log(
         "Logging this error as we may need to retry to keep a good UX",
@@ -71,8 +80,12 @@ const ImageUploadPreview = (props: Props) => {
 
   return (
     <>
-      {responsePayload?.status ? (
-        <PredictionPreview response={responsePayload} />
+      {/* Need to figure out a good way to handle the error response before getting back to the render function */}
+      {responsePayload ? (
+        <PredictionPreview
+          response={responsePayload}
+          isDuplicate={isDuplicateScan}
+        />
       ) : (
         imageUI
       )}

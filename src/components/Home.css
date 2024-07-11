@@ -1,0 +1,16 @@
+.signOutButton {
+  grid-column: "lastCol";
+  grid-row-start: "row1";
+}
+
+.welcomeBannerStyle {
+  border: "solid 1px navy";
+  display: "grid";
+  grid-column-start: "col2";
+  grid-column-end: "lastCol";
+  grid-row-start: "row2";
+  height: "100%";
+  width: "100%";
+  justify-items: "center" /* Center horizontally */;
+  place-items: "center";
+}

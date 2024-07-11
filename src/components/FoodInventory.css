@@ -1,0 +1,29 @@
+.topRow {
+  grid-row-start: row1;
+  grid-row-end: row1;
+  grid-column-start: col1;
+  grid-column-end: lastCol;
+  align-self: center; /* vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /*line height looks like */
+  display: flex;
+}
+.secondRow {
+  grid-row-start: row2;
+  grid-row-end: row2;
+  grid-column-start: col1;
+  grid-column-end: lastCol;
+  align-self: center; /* vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /*line height looks like */
+  display: flex;
+}
+.main {
+  grid-row-start: row3;
+  grid-row-end: row3;
+  grid-column-start: col2;
+  grid-column-end: col2;
+  align-self: center; /* vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /*line height looks like */
+}

@@ -7,14 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Auth from "./components/Auth";
+import FoodInventory from "./components/FoodInventory";
 import Home from "./components/Home";
-import Signin from "./components/Signin";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
-import * as serviceWorker from "./serviceWorkerRegistration";
 import Scan from "./components/Scan";
 import "./index.css";
+import * as serviceWorker from "./serviceWorkerRegistration";
 import { firebaseConfig } from "./utils";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -22,8 +22,8 @@ import { firebaseConfig } from "./utils";
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-//use emulator
-connectFirestoreEmulator(db, "127.0.0.1", 9098);
+//use emulator Need to be commented out in prod
+// connectFirestoreEmulator(db, "127.0.0.1", 9098);
 const analytics = getAnalytics(app);
 // firebase login
 // firebase init
@@ -34,9 +34,9 @@ const initApp = () => {
     getAuth(),
     (user) => {
       if (user) {
-        // User is signed in.
+        console.log("User is signed in.");
       } else {
-        // User is signed out.
+        console.log("User is signed out.");
       }
     },
     function (error) {
@@ -48,6 +48,14 @@ const initApp = () => {
 window.addEventListener("load", function () {
   initApp();
 });
+// reroute projectId.web.app domain to projectId.firebaseapp.com to lessen confusion about the redirect issue
+// https://firebase.google.com/docs/auth/web/redirect-best-practices
+// https://stackoverflow.com/questions/61396081/how-to-turn-off-default-domain-in-firebase-hosting-firebase
+window.addEventListener("load", function () {
+  if (window.location.hostname === `${firebaseConfig.projectId}.web.app`) {
+    window.location.href = `http://${firebaseConfig.authDomain}`;
+  }
+});
 
 const router = createBrowserRouter(
   [
@@ -55,12 +63,10 @@ const router = createBrowserRouter(
       path: "/",
       element: <App />,
     },
-    // { path: "/signin", element:<Signin />},
     { path: "/home", element: <Home /> },
     { path: "/auth", element: <Auth /> },
-    { path: "/signin", element: <Signin /> },
-    { path: "/foodbank", element: <Signin /> },
-    { path: "/explore", element: <Signin /> },
+    { path: "/foodbank", element: <FoodInventory /> },
+    // { path: "/explore", element: <Explore /> },
     { path: "/scan", element: <Scan /> },
   ]
   // createRoutesFromElements(

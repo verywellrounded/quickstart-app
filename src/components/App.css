@@ -1,0 +1,18 @@
+.bannerText {
+  grid-row-start: row1;
+  grid-column-start: col2;
+  grid-column-end: col2;
+  justify-self: center;
+}
+
+.signInButton {
+  grid-row-start: row2;
+  grid-row-end: row3;
+  grid-column-start: col2;
+  grid-column-end: col2;
+  border: solid 1px navy;
+  grid-column-start: col2;
+  grid-column-end: lastCol;
+  grid-row-start: row2;
+  justify-self: stretch;
+}

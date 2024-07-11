@@ -1,0 +1,14 @@
+.bannerText {
+  grid-row-start: row1;
+  grid-column-start: col2;
+  grid-column-end: col2;
+  justify-self: center;
+}
+
+.signupContainer__box__google {
+  grid-row-start: row2;
+  grid-row-end: row3;
+  grid-column-start: col2;
+  grid-column-end: col2;
+  justify-self: center;
+}

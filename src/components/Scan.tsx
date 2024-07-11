@@ -366,10 +366,11 @@ export default function Scan() {
       /> */}
       {/* Need to work out the css how to apply grid at the layout level */}
       <Layout>
+        <SimpleImageCropper />
         {/* {UploadAndDisplayImage()} */}
         {/* <div className="imagePreviewParentContainer"> */}
 
-        {iOSOrStandalone ? (
+        {/* removing the check to auto display receipt {iOSOrStandalone ? (
           <SimpleImageCropper />
         ) : !isShowUpload ? (
           <AutoImageUpload
@@ -378,7 +379,7 @@ export default function Scan() {
           />
         ) : (
           <SimpleImageCropper />
-        )}
+        )} */}
         {/* <BoarderDetector></BoarderDetector> */}
         {/* </div> */}
       </Layout>

@@ -1,9 +1,9 @@
 .imagePreviewParentContainer {
   /* border: solid 1px navy; */
   grid-column-start: col2;
-  grid-column-end: endCol;
+  grid-column-end: lastCol;
   grid-row-start: row2;
-  grid-row-end: lrow;
+  grid-row-end: lastRow;
   height: 100%;
   width: 100%;
 }
