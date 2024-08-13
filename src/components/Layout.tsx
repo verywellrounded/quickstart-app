@@ -4,6 +4,7 @@ import "./Scan.css";
 
 // Importing all created components
 import Nav from "./Nav";
+import InstallPromptBanner from "./InstallPromptBanner";
 
 interface propsWithChildrenPlus extends PropsWithChildren {
   displayNavBar?: boolean;
@@ -18,6 +19,7 @@ export default function Layout(props: typeof defaultPropsWithChildrenPlus) {
     <>
       <div className="layoutContainer">
         <link rel="manifest" href="/manifest.json"></link>
+        <InstallPromptBanner></InstallPromptBanner>
         {props.children}
         {props.displayNavBar ?? <Nav className={"navcontainer"} />}
       </div>
